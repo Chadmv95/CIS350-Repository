@@ -49,10 +49,42 @@ public class BPlusTree {
 	    			parent.setChildren(child, i);
 	    			return true;
 	    		}
-	    	
 	    
     	return false;
-	    	
+    }
+    
+    /*
+     * Add node to the root at the soonest available spot
+     * 
+     * returns true upon successful add
+     * returns false upon unsuccessful add & child is not added
+     */
+    public boolean add(Node child)
+    {
+    	if(child != null)
+	    	for(int i=0; i<5; i++) 
+	    		if(root.getChildren(i) == null) {
+	    			root.setChildren(child, i);
+	    			return true;
+	    		}
+    	
+    	return false;
+    }
+    
+    /*
+     * Add a node to the tree underneath the root
+     * at the selected position
+     * 
+     * returns true on successful add
+     * returns false if child is null
+     */
+    public boolean add(Node child, int childNum)
+    {
+        if(child == null) 
+        	return false;
+        
+    	root.setChildren(child, childNum);
+        return true;
     }
     
     /*
@@ -84,34 +116,6 @@ public class BPlusTree {
     	
     	return true;
     }
-
-    public static void main(String args[])
-    {
-    	Scanner input = new Scanner(System.in);
-    	String userString;
-    	int userInt;
-    	
-        System.out.println("==============================");
-        System.out.println("======Brainstorm Helper!======");
-        System.out.println("==============================");
-        
-        System.out.println("Please enter a string for the start");
-        userString = input.nextLine();
-        
-        BPlusTree tree = new BPlusTree(userString);
-        
-        System.out.println("Enter another string");
-        userString = input.nextLine();
-        System.out.println("Enter a child number");
-        userInt = input.nextInt();
-        
-        Node u1 = new Node(userString);
-        tree.add(root, u1, userInt);
-        
-        input.close();
-    	
-    }
-
 
 }
 
