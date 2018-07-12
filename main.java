@@ -24,7 +24,29 @@ public class main {
         
         Node u1 = new Node(userString);
         
-        tree.add(u1, userInt);
+        System.out.println("Enter another string");
+        userString = input.nextLine();
+        Node u2 = new Node(userString);
+        
+        System.out.println("Enter another string");
+        userString = input.nextLine();
+        Node u3 = new Node(userString);
+        
+        System.out.println("Enter another string");
+        userString = input.nextLine();
+        Node u4 = new Node(userString);
+        
+        System.out.println("Enter another string");
+        userString = input.nextLine();
+        Node u5 = new Node(userString);
+        
+        tree.add(u1, userInt-1);
+        tree.add(u2);
+        tree.add(u3);
+        tree.add(u4);
+        tree.add(u5);
+        
+        tree.printTree();
         
         input.close();
     	

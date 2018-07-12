@@ -114,9 +114,19 @@ public class BPlusTree {
     	if(root == null)
     		return false;
     	
+    	System.out.println(root.getContent());
+    	System.out.print("|--> ");
+    	for(int i=0; i<5; i++) {
+    		if(root.getChildren(i) != null) {
+    			System.out.print(root.getChildren(i).getContent());
+    			System.out.print(" ");
+    		}
+    	}
+    	System.out.println("");
+    	
     	return true;
     }
-
+    
 }
 
 
