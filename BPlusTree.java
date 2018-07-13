@@ -16,6 +16,14 @@ public class BPlusTree {
     {
     	root = new Node("");
     }
+    
+    /*
+     * Returns the tree's root node
+     */
+    public Node getRoot()
+    {
+    	return root;
+    }
 
     /*
      * Add a node to the tree underneath the selected parent
