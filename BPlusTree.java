@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 public class BPlusTree {
 	private static Node root;
 
