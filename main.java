@@ -47,6 +47,13 @@ public class main {
         tree.add(u4);
         tree.add(u5);
         
+        tree.add(u2, new Node("Grandbaby!"));
+        tree.add(u2.getChildren(0), new Node("Great Grandbaby!"));
+        
+        tree.add(u5, new Node("More"));
+        tree.add(u5, new Node("Grand"));
+        tree.add(u5, new Node("Children"));
+        
         tree.printTree();
         
         input.close();

@@ -1,3 +1,5 @@
+import java.io.PrintStream;
+
 public class BPlusTree {
 	private static Node root;
 
@@ -119,17 +121,36 @@ public class BPlusTree {
     	if(root == null)
     		return false;
     	
-    	System.out.println(root.getContent());
-    	System.out.print("|--> ");
-    	for(int i=0; i<root.getNumChildren(); i++) {
-    		if(root.getChildren(i) != null) {
-    			System.out.print(root.getChildren(i).getContent());
-    			System.out.print(" ");
-    		}
-    	}
-    	System.out.println("");
+//    	System.out.println(root.getContent());
+//    	System.out.print("|--> ");
+//    	for(int i=0; i<root.getNumChildren(); i++) {
+//    		if(root.getChildren(i) != null) {
+//    			System.out.print(root.getChildren(i).getContent());
+//    			System.out.print(" ");
+//    		}
+//    	}
+//    	System.out.println("");
+    	
+    	printBranch(root, "", "    ", System.out);
     	
     	return true;
+    }
+    
+    private void printBranch(Node parent, String treeStructure, String next, PrintStream stream)
+    {
+    	// Print the parent of this branch
+    	stream.println(treeStructure + "|--> " + parent.getContent());
+    	
+    	
+    	// Then print all of its babies at one more depth than this
+    	int i;
+    	// The first children all have trailing "sticks" for all descendants to carry
+    	for(i=0; i<parent.getNumChildren()-1; i++) {
+    		printBranch(parent.getChildren(i), treeStructure + next, "|    ", stream);
+    	}
+    	// The last child doesn't display a "stick"
+    	if(i<parent.getNumChildren())
+    		printBranch(parent.getChildren(i), treeStructure + next, "     ", stream);
     }
     
 }
