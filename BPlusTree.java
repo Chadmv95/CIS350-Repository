@@ -45,8 +45,7 @@ public class BPlusTree {
         if(child == null) 
         	return false;
         
-    	parent.setChildren(child, childNum);
-        return true;
+    	return parent.setChildren(child, childNum);
     }
     
     /*
@@ -58,11 +57,7 @@ public class BPlusTree {
     public boolean add(Node parent, Node child)
     {
     	if(child != null)
-	    	for(int i=0; i<5; i++) 
-	    		if(parent.getChildren(i) == null) {
-	    			parent.setChildren(child, i);
-	    			return true;
-	    		}
+	    	return parent.setChildren(child);
 	    
     	return false;
     }
@@ -76,11 +71,7 @@ public class BPlusTree {
     public boolean add(Node child)
     {
     	if(child != null)
-	    	for(int i=0; i<5; i++) 
-	    		if(root.getChildren(i) == null) {
-	    			root.setChildren(child, i);
-	    			return true;
-	    		}
+	    	return root.setChildren(child);
     	
     	return false;
     }
@@ -130,7 +121,7 @@ public class BPlusTree {
     	
     	System.out.println(root.getContent());
     	System.out.print("|--> ");
-    	for(int i=0; i<5; i++) {
+    	for(int i=0; i<root.getNumChildren(); i++) {
     		if(root.getChildren(i) != null) {
     			System.out.print(root.getChildren(i).getContent());
     			System.out.print(" ");

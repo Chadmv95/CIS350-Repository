@@ -21,6 +21,7 @@ public class main {
         userString = input.nextLine();
         System.out.println("Enter a child number");
         userInt = input.nextInt();
+        input.nextLine();
         
         Node u1 = new Node(userString);
         
