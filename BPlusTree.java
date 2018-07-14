@@ -18,6 +18,14 @@ public class BPlusTree {
     }
     
     /*
+     * Creates a new tree using a pre-existing node as the root node
+     */
+    public BPlusTree(Node rootNode)
+    {
+    	root = rootNode;
+    }
+    
+    /*
      * Returns the tree's root node
      */
     public Node getRoot()
