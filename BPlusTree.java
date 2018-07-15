@@ -131,7 +131,7 @@ public class BPlusTree {
 //    	}
 //    	System.out.println("");
     	
-    	printBranch(root, "", "    ", System.out);
+    	printBranch(root, "", "     ", System.out);
     	
     	return true;
     }
