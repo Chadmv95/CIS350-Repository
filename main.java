@@ -2,12 +2,12 @@ import java.util.Scanner;
 
 public class main {
     
-	public static void main(String args[])
+    public static void main(String args[])
     {
-    	Scanner input = new Scanner(System.in);
-    	String userString;
-    	int userInt;
-    	
+        Scanner input = new Scanner(System.in);
+        String userString;
+        int userInt;
+        
         System.out.println("==============================");
         System.out.println("======Brainstorm Helper!======");
         System.out.println("==============================");
@@ -57,6 +57,6 @@ public class main {
         tree.printTree();
         
         input.close();
-    	
+        
     }
 }
