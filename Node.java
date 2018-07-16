@@ -36,23 +36,22 @@ public class Node {
      */
     public boolean setChildren(final Node child, final int i) {
     	
-    	if(child != null) {
-            // If we REALLY want to put the child at a specific index,
-            // then we're going to have to add some null children to the
-            // ArrayList. Otherwise, we will get an error from ArrayList
-    		while(this.children.size() <= i)
-                this.children.add(null);
-            
-    		//Add the child at location i
-            this.children.set(i, child);
-            
-            // Now set the child's parent to this
-            child.setParent(this);
-            
-            return true;
-        }
-        else
-            return false;
+    	if(child == null)
+    	    return false;
+    	
+        // If we REALLY want to put the child at a specific index,
+        // then we're going to have to add some null children to the
+        // ArrayList. Otherwise, we will get an error from ArrayList
+		while(this.children.size() <= i)
+            this.children.add(null);
+        
+		//Add the child at location i
+        this.children.set(i, child);
+        
+        // Now set the child's parent to this
+        child.setParent(this);
+        
+        return true;
     }
     
     /*
@@ -78,7 +77,7 @@ public class Node {
         return true;
     }
     
-    public boolean removeChildren(final Node child){
+    public boolean removeChildren(final Node child) {
     	
     	if (child == null)
     		return false;

@@ -143,8 +143,7 @@ public class BPlusTree {
     	
     	if (it.getContent().equals(title)) {
     		return it;
-    	}
-    	else {
+    	} else {
     		for (int i = 0; i < it.getNumChildren(); i++) {
     			if (it.getChildren(i) != null) {
     				 tmp = searchHelper(it.getChildren(i), title);

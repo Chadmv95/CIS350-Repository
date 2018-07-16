@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class main {
+public abstract class main {
     
     public static void main(final String[] args) {
         Scanner input = new Scanner(System.in, "utf-8");
@@ -49,8 +49,7 @@ public class main {
 	        		if (tree.add(tree.search(userString), addToChild))
 	        			System.out.println("Node added to tree!");
 	        		
-	        	}
-	        	else {
+	        	} else {
 	        		System.out.println("Enter node title");
 	        		userString = input.nextLine();
 	        		Node addToRoot = new Node(userString);

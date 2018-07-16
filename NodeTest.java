@@ -51,11 +51,11 @@ public class NodeTest {
      * Node.getContent();
      */
     @Test
-    public void testNode_1() {
+    public void testNode1() {
         String val = "This is a test";
         Node node = new Node();
         node.setContent(val);
-        assertTrue(  val.equals( node.getContent() )  );
+        assertTrue(val.equals(node.getContent()));
     }
 
     /**
@@ -64,10 +64,10 @@ public class NodeTest {
      * Node.getContent()
      */
     @Test
-    public void testNode_2() {
+    public void testNode2() {
         String val = "This is a test";
         Node node = new Node(val);
-        assertTrue(  val.equals( node.getContent() )  );
+        assertTrue(val.equals(node.getContent()));
     }
 
     /**
@@ -76,11 +76,11 @@ public class NodeTest {
      * Node.getChildren(int)
      */
     @Test
-    public void testChildren_1() {
+    public void testChildren1() {
         Node parent = new Node("Parent");
         Node child = new Node("Child");
         parent.setChildren(child, 1);
-        assertTrue(  child.equals( parent.getChildren(1) )  );
+        assertTrue(child.equals(parent.getChildren(1)));
     }
 
 	/**
@@ -88,9 +88,9 @@ public class NodeTest {
 	 * Node.setChildren(Node, int)
 	 */
 	@Test
-	public void testChildren_2() {
+	public void testChildren2() {
 		Node parent = new Node("Parent");
-		assertFalse( parent.setChildren(null, 1) );
+		assertFalse(parent.setChildren(null, 1));
 	}
 
 	/**
@@ -98,9 +98,9 @@ public class NodeTest {
 	 * Node.setChildren(Node)
 	 */
 	@Test
-	public void testChildren_3() {
+	public void testChildren3() {
 		Node parent = new Node("Parent");
-		assertFalse( parent.setChildren(null) );
+		assertFalse(parent.setChildren(null));
 	}
 
 	/**
@@ -109,13 +109,13 @@ public class NodeTest {
 	 * Node.setChildren(Node)
 	 */
 	@Test
-	public void testChildren_4() {
+	public void testChildren4() {
 		Node parent = new Node("Parent");
 		parent.setChildren(new Node("Child 1"), 2);  // Put child 1 in position 2
 		parent.setChildren(new Node("Child 2"));     // Child 2 should now end up in position 0
 		parent.setChildren(new Node("Child 3"));     // And Child 3 should get position 1
 		
-		assertEquals( "Child 2", parent.getChildren(0).getContent() );
+		assertEquals("Child 2", parent.getChildren(0).getContent());
 	}
 
 	/**
@@ -124,13 +124,13 @@ public class NodeTest {
 	 * Node.setChildren(Node)
 	 */
 	@Test
-	public void testGetNumChildren_1() {
+	public void testGetNumChildren1() {
 		Node parent = new Node("Parent");
 		parent.setChildren(new Node("Child 1"));
 		parent.setChildren(new Node("Child 2"));
 		parent.setChildren(new Node("Child 3"));
 		
-		assertEquals( parent.getNumChildren(), 3 );
+		assertEquals(parent.getNumChildren(), 3);
 	}
 
 }
