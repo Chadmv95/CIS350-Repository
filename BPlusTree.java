@@ -154,11 +154,6 @@ public class BPlusTree {
     		}
     	}
     	
-<<<<<<< HEAD
-=======
-    	printBranch(root, "", "     ", System.out);
->>>>>>> parent of dda03a1... add uml
-    	
     	return null;
     }
     
