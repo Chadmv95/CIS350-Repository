@@ -6,55 +6,82 @@ public class main {
     {
         Scanner input = new Scanner(System.in);
         String userString;
-        int userInt;
+        int userInt = 0;
         
         System.out.println("==============================");
         System.out.println("======Brainstorm Helper!======");
         System.out.println("==============================");
         
-        System.out.println("Please enter a string for the start");
+        System.out.println("Please enter a string for the starting node");
         userString = input.nextLine();
         
         BPlusTree tree = new BPlusTree(userString);
         
-        System.out.println("Enter another string");
-        userString = input.nextLine();
-        System.out.println("Enter a child number");
-        userInt = input.nextInt();
-        input.nextLine();
-        
-        Node u1 = new Node(userString);
-        
-        System.out.println("Enter another string");
-        userString = input.nextLine();
-        Node u2 = new Node(userString);
-        
-        System.out.println("Enter another string");
-        userString = input.nextLine();
-        Node u3 = new Node(userString);
-        
-        System.out.println("Enter another string");
-        userString = input.nextLine();
-        Node u4 = new Node(userString);
-        
-        System.out.println("Enter another string");
-        userString = input.nextLine();
-        Node u5 = new Node(userString);
-        
-        tree.add(u1, userInt-1);
-        tree.add(u2);
-        tree.add(u3);
-        tree.add(u4);
-        tree.add(u5);
-        
-        tree.add(u2, new Node("Grandbaby!"));
-        tree.add(u2.getChildren(0), new Node("Great Grandbaby!"));
-        
-        tree.add(u5, new Node("More"));
-        tree.add(u5, new Node("Grand"));
-        tree.add(u5, new Node("Children"));
-        
-        tree.printTree();
+        while(userInt != 4) {
+        	
+        	System.out.println("");
+	        System.out.println("What would you like to do?");
+	        System.out.println("1) Add a node");
+	        System.out.println("2) Delete a node");
+	        System.out.println("3) Print the tree");
+	        System.out.println("4) Exit the program");
+	        
+	        userInt = input.nextInt();
+	        input.nextLine();
+	        
+	        switch(userInt) {
+	        case 1: //add a node to the tree
+	        	System.out.println("Where would you like to add the new node?");
+	        	System.out.println("1) Under root node");
+	        	System.out.println("2) Under another node");
+	        	
+	        	userInt = input.nextInt();
+	        	input.nextLine();
+	        	
+	        	if(userInt == 2) {
+	        		System.out.println("Enter node title");
+	        		userString = input.nextLine();
+	        		Node addToChild = new Node(userString);
+	        		
+	        		System.out.println("Enter title of parent to add node to");
+	        		userString = input.nextLine();
+	        		
+	        		if(tree.add(tree.search(userString), addToChild)) //add new node as a child to searched node
+	        			System.out.println("Node added to tree!");
+	        		
+	        	}
+	        	else {
+	        		System.out.println("Enter node title");
+	        		userString = input.nextLine();
+	        		Node addToRoot = new Node(userString);
+	        		
+	        		if(tree.add(addToRoot))
+	        			System.out.println("Node added to tree!");
+	        		else System.out.println("Could not find node with that name");
+	        	}
+	        	
+	        	break;
+	        case 2: //delete a node from the tree
+	        	System.out.println("Enter a node name to delete");
+	        	userString = input.nextLine();
+        		Node deleteFromTree = tree.search(userString);
+	        	
+        		if(tree.delete(deleteFromTree)) //delete from tree
+        			System.out.println("Node deleted from tree!");
+        		else System.out.println("Could not find node with that name");
+	        	
+	        	break;
+	        case 3: //print the tree
+	        	tree.printTree();
+	        	break;
+	        case 4: //exit the program
+	        	System.out.close();
+	        	break;
+	        default:
+	        	System.out.close();
+	        }
+	        
+        }
         
         input.close();
         

@@ -44,7 +44,7 @@ public class BPlusTree {
      */
     public boolean add(Node parent, Node child, int childNum)
     {
-        if(child == null) 
+        if(child == null || child.getContent() == "") 
             return false;
         
         return parent.setChildren(child, childNum);
@@ -58,8 +58,8 @@ public class BPlusTree {
      */
     public boolean add(Node parent, Node child)
     {
-        if(child != null)
-            return parent.setChildren(child);
+        if(parent != null && child != null && child.getContent() != "")
+            parent.setChildren(child);
         
         return false;
     }
@@ -72,7 +72,7 @@ public class BPlusTree {
      */
     public boolean add(Node child)
     {
-        if(child != null)
+        if(child != null && child.getContent() != "")
             return root.setChildren(child);
         
         return false;
@@ -87,7 +87,7 @@ public class BPlusTree {
      */
     public boolean add(Node child, int childNum)
     {
-        if(child == null) 
+        if(child == null || child.getContent() == "") 
             return false;
         
         root.setChildren(child, childNum);
@@ -96,7 +96,8 @@ public class BPlusTree {
     
     /*
      * Delete child from the tree
-     * Note: children under the deleted node will also be removed
+     * Note: children under the deleted node will also be removed.
+     * Note: don't use this, it is bad and terrible and bad
      * 
      * returns true upon deletion
      * returns false if parent is null
@@ -108,6 +109,61 @@ public class BPlusTree {
         
         parent.setChildren(null, childNum);
         return true;
+    }
+    
+    public boolean delete(Node tbd) {
+    	
+    	if(tbd == null)
+    		return false;
+    	else {
+    		//remove the children and set parent to null
+	    	tbd.getParent().removeChildren(tbd);
+	    	tbd.setParent(null);
+	    	
+	    	//delete the children
+	    	for(int i=0; i<tbd.getNumChildren(); i++) {
+	    		delete(tbd.getChildren(i));
+	    	}
+	    	
+	    	return true;
+    	}
+    	
+    }
+    
+    /*
+     * calls helper function which uses root
+     * this keeps the root private from other classes
+     */
+    public Node search(String title) {
+    	return searchHelper(root, title);
+    }
+    
+    /*
+     * this helper function searches the tree from the root
+     * to find the matching node
+     * 
+     * if there is no matching node, null is returned
+     * 
+     * if there are two matching nodes, the last found node
+     * is the node which is returned
+     */
+    private Node searchHelper(Node it, String title) {
+    	Node tmp = new Node();
+    	
+    	if(it.getContent().equals(title)) {
+    		return it;
+    	}
+    	else {
+    		for(int i=0; i< it.getNumChildren(); i++)
+    			if(it.getChildren(i) != null) {
+    				 tmp = searchHelper(it.getChildren(i), title);
+    				 if(tmp != null)
+    					 return tmp;
+    			}
+    	}
+    	
+    	
+    	return null;
     }
     
     /*

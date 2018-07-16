@@ -7,6 +7,7 @@ public class Node {
     private String content;
 
     private ArrayList<Node> children;
+    private Node parent;
 
     Node (String content) {
         this.content = content;
@@ -14,7 +15,7 @@ public class Node {
     }
     
     Node () {
-        this.content = "";
+        this.content = " ";
         children = new ArrayList<Node>(5);
     }
 
@@ -28,15 +29,19 @@ public class Node {
 
     /*
      * sets child to given parameter at given location
+     * don't use this
      * 
      * returns true upon success
      * returns false if child is null
      */
     public boolean setChildren(Node child, int i) {
-        if(child != null) {
+    	
+    	if(child != null) {
             // If we REALLY want to put the child at a specific index,
             // then we're going to have to add some null children to
             // the ArrayList
+    		child.setParent(this);
+    		
             while(this.children.size() <= i)
                 this.children.add(null);
             
@@ -56,6 +61,9 @@ public class Node {
     public boolean setChildren(Node child) {
         if(child != null) {
             int firstNullPosition = this.children.indexOf(null);
+            
+            child.setParent(this);
+            
             if(firstNullPosition == -1)
                 this.children.add(child);
             else
@@ -66,6 +74,17 @@ public class Node {
         else
             return false;
     }
+    
+    public boolean removeChildren(Node child){
+    	
+    	if(child == null)
+    		return false;
+    	else {
+    		this.children.remove(child);
+    		return true;
+    	}
+    	
+    }
 
     public Node getChildren(int i) {
         return this.children.get(i);
@@ -74,6 +93,14 @@ public class Node {
     public int getNumChildren()
     {
         return this.children.size();
+    }
+    
+    public Node getParent() {
+    	return this.parent;
+    }
+    
+    public void setParent(Node p) {
+    	this.parent = p;
     }
 
 }
