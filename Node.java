@@ -9,17 +9,17 @@ public class Node {
     private ArrayList<Node> children;
     private Node parent;
 
-    Node (String content) {
+    Node(final String content) {
         this.content = content;
         children = new ArrayList<Node>(5);
     }
     
-    Node () {
+    Node() {
         this.content = " ";
         children = new ArrayList<Node>(5);
     }
 
-    public void setContent(String content) {
+    public void setContent(final String content) {
         this.content = content;
     }
     
@@ -34,18 +34,21 @@ public class Node {
      * returns true upon success
      * returns false if child is null
      */
-    public boolean setChildren(Node child, int i) {
+    public boolean setChildren(final Node child, final int i) {
     	
     	if(child != null) {
             // If we REALLY want to put the child at a specific index,
-            // then we're going to have to add some null children to
-            // the ArrayList
-    		child.setParent(this);
-    		
-            while(this.children.size() <= i)
+            // then we're going to have to add some null children to the
+            // ArrayList. Otherwise, we will get an error from ArrayList
+    		while(this.children.size() <= i)
                 this.children.add(null);
             
+    		//Add the child at location i
             this.children.set(i, child);
+            
+            // Now set the child's parent to this
+            child.setParent(this);
+            
             return true;
         }
         else
@@ -58,40 +61,37 @@ public class Node {
      * returns true upon success
      * returns false if child is null
      */
-    public boolean setChildren(Node child) {
-        if(child != null) {
-            int firstNullPosition = this.children.indexOf(null);
-            
-            child.setParent(this);
-            
-            if(firstNullPosition == -1)
-                this.children.add(child);
-            else
-                this.children.set(firstNullPosition, child);
-            
-            return true;
-        }
-        else
+    public boolean setChildren(final Node child) {
+        if(child == null) 
             return false;
+        
+        // Find the first empty location, and put the child there
+        int firstNullPosition = this.children.indexOf(null);
+        if(firstNullPosition == -1)
+            this.children.add(child);
+        else
+            this.children.set(firstNullPosition, child);
+        
+        // Set the child's parent to this
+        child.setParent(this);
+        
+        return true;
     }
     
-    public boolean removeChildren(Node child){
+    public boolean removeChildren(final Node child){
     	
-    	if(child == null)
+    	if (child == null)
     		return false;
-    	else {
-    		this.children.remove(child);
-    		return true;
-    	}
     	
+    	this.children.remove(child);
+    	return true;
     }
 
-    public Node getChildren(int i) {
+    public Node getChildren(final int i) {
         return this.children.get(i);
     }
     
-    public int getNumChildren()
-    {
+    public int getNumChildren() {
         return this.children.size();
     }
     
@@ -99,7 +99,7 @@ public class Node {
     	return this.parent;
     }
     
-    public void setParent(Node p) {
+    public void setParent(final Node p) {
     	this.parent = p;
     }
 

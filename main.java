@@ -2,8 +2,7 @@ import java.util.Scanner;
 
 public class main {
     
-    public static void main(String args[])
-    {
+    public static void main(final String[] args) {
         Scanner input = new Scanner(System.in, "utf-8");
         String userString;
         int userInt = 0;
@@ -17,7 +16,7 @@ public class main {
         
         BPlusTree tree = new BPlusTree(userString);
         
-        while(userInt != 4) {
+        while (userInt != 4) {
         	
         	System.out.println("");
 	        System.out.println("What would you like to do?");
@@ -29,7 +28,7 @@ public class main {
 	        userInt = input.nextInt();
 	        input.nextLine();
 	        
-	        switch(userInt) {
+	        switch (userInt) {
 	        case 1: //add a node to the tree
 	        	System.out.println("Where would you like to add the new node?");
 	        	System.out.println("1) Under root node");
@@ -38,7 +37,7 @@ public class main {
 	        	userInt = input.nextInt();
 	        	input.nextLine();
 	        	
-	        	if(userInt == 2) {
+	        	if (userInt == 2) {
 	        		System.out.println("Enter node title");
 	        		userString = input.nextLine();
 	        		Node addToChild = new Node(userString);
@@ -46,7 +45,8 @@ public class main {
 	        		System.out.println("Enter title of parent to add node to");
 	        		userString = input.nextLine();
 	        		
-	        		if(tree.add(tree.search(userString), addToChild)) //add new node as a child to searched node
+	        		//add new node as a child to searched node
+	        		if (tree.add(tree.search(userString), addToChild))
 	        			System.out.println("Node added to tree!");
 	        		
 	        	}
@@ -55,7 +55,7 @@ public class main {
 	        		userString = input.nextLine();
 	        		Node addToRoot = new Node(userString);
 	        		
-	        		if(tree.add(addToRoot))
+	        		if (tree.add(addToRoot))
 	        			System.out.println("Node added to tree!");
 	        		else System.out.println("Could not find node with that name");
 	        	}
@@ -66,7 +66,7 @@ public class main {
 	        	userString = input.nextLine();
         		Node deleteFromTree = tree.search(userString);
 	        	
-        		if(tree.delete(deleteFromTree)) //delete from tree
+        		if (tree.delete(deleteFromTree)) //delete from tree
         			System.out.println("Node deleted from tree!");
         		else System.out.println("Could not find node with that name");
 	        	
