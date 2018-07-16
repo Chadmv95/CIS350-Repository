@@ -4,7 +4,7 @@ public class main {
     
     public static void main(String args[])
     {
-        Scanner input = new Scanner(System.in);
+        Scanner input = new Scanner(System.in, "utf-8");
         String userString;
         int userInt = 0;
         

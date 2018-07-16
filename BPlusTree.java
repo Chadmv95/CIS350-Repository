@@ -1,7 +1,7 @@
 import java.io.PrintStream;
 
 public class BPlusTree {
-    private static Node root;
+    private Node root;
 
     /*
      * creates root node with given data
@@ -44,7 +44,7 @@ public class BPlusTree {
      */
     public boolean add(Node parent, Node child, int childNum)
     {
-        if(child == null || child.getContent() == "") 
+        if(child == null || child.getContent().equals("")) 
             return false;
         
         return parent.setChildren(child, childNum);
@@ -58,10 +58,10 @@ public class BPlusTree {
      */
     public boolean add(Node parent, Node child)
     {
-        if(parent != null && child != null && child.getContent() != "")
-            parent.setChildren(child);
+        if(parent == null || child == null || child.getContent().equals(""))
+            return false;
         
-        return false;
+        return parent.setChildren(child);
     }
     
     /*
@@ -72,10 +72,10 @@ public class BPlusTree {
      */
     public boolean add(Node child)
     {
-        if(child != null && child.getContent() != "")
-            return root.setChildren(child);
+        if(child == null || child.getContent().equals("")) 
+            return false;
         
-        return false;
+        return root.setChildren(child);
     }
     
     /*
@@ -87,11 +87,10 @@ public class BPlusTree {
      */
     public boolean add(Node child, int childNum)
     {
-        if(child == null || child.getContent() == "") 
+        if(child == null || child.getContent().equals("")) 
             return false;
         
-        root.setChildren(child, childNum);
-        return true;
+        return root.setChildren(child, childNum);
     }
     
     /*
@@ -107,6 +106,7 @@ public class BPlusTree {
         if(parent == null) 
             return false;
         
+        parent.getChildren(childNum).setParent(null);
         parent.setChildren(null, childNum);
         return true;
     }
