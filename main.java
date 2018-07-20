@@ -15,13 +15,19 @@ public abstract class Main {
         
         window.add(tree, BorderLayout.CENTER);
         
-        NodeView node = new NodeView(new Node());
-        
-        tree.add(node, BorderLayout.PAGE_END);
-        
+        Node node = new Node();
+        NodeView nodeView = new NodeView(node);
         Rectangle bounds = new Rectangle(20, 20, 200, 100);
-        
+        nodeView.setBounds(bounds);
         node.setBounds(bounds);
+        tree.add(nodeView);
+        
+        node = new Node("Second One", "Other Cool Stuff");
+        nodeView = new NodeView(node);
+        bounds = new Rectangle(300,50,150,150);
+        nodeView.setBounds(bounds);
+        node.setBounds(bounds);
+        tree.add(nodeView);
         
         window.pack();
         window.setVisible(true);

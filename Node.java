@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.ArrayList;
+import java.awt.Rectangle;
 
 /*
  * class for Nodes in the B+ tree
@@ -9,11 +10,14 @@ public class Node {
 
     private ArrayList<Node> children;
     private Node parent;
+    private Rectangle bounds;
 
     Node(final String name, final String content) {
         this.name = name;
         this.content = content;
         children = new ArrayList<Node>(5);
+        
+        bounds = new Rectangle(10, 10, 100, 100);
     }
     
     Node() {
@@ -30,6 +34,10 @@ public class Node {
         this.content = newContent;
     }
     
+    public void setBounds(Rectangle bounds) {
+        this.bounds = bounds;
+    }
+    
     public String getName() {
         return this.name;
     }
@@ -38,6 +46,11 @@ public class Node {
         return this.content;
     }
     
+    public Rectangle getBounds() {
+        return bounds;
+    }
+    
+    @Override
     public String toString() {
         return getName() + ": " + getContent();
     }

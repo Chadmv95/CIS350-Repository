@@ -1,12 +1,15 @@
 import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.*;
+import java.awt.event.*;
 
-public class NodeView extends JPanel {
+public class NodeView extends JPanel  implements MouseListener, MouseMotionListener {
     
     private JTextField nameField;
     private JTextArea contentField;
     private Color borderColor = Color.DARK_GRAY; //Default Color
+    
+    private int mouseStartingX = 0, mouseStartingY = 0, nodeOldX = 0, nodeOldY = 0;
     
     public NodeView() {
         nameField = new JTextField("Insert Name");
@@ -31,7 +34,7 @@ public class NodeView extends JPanel {
         
         JScrollPane sp = new JScrollPane(contentField);
         sp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         sp.setPreferredSize(new Dimension(200,100));
         contentField.setLineWrap(true);
         contentField.setWrapStyleWord(true);
@@ -40,6 +43,9 @@ public class NodeView extends JPanel {
         setBorderColor(this.borderColor);
         
         this.setVisible(true);
+        
+        this.addMouseListener(this);
+        this.addMouseMotionListener(this);
     }
     
     public void setName(String name) {
@@ -69,4 +75,35 @@ public class NodeView extends JPanel {
     public void setContentFieldListener(final DocumentListener listener) {
         this.contentField.getDocument().addDocumentListener(listener);
     }
+
+    @Override
+    public void mouseClicked(MouseEvent arg0) { /*Do nothing*/ }
+
+    @Override
+    public void mouseEntered(MouseEvent arg0) { /*Do nothing*/ }
+
+    @Override
+    public void mouseExited(MouseEvent arg0) { /*Do nothing*/ }
+
+    @Override
+    public void mousePressed(MouseEvent arg0) {
+        nodeOldX = this.getX();
+        nodeOldY = this.getY();
+        
+        mouseStartingX = arg0.getXOnScreen();
+        mouseStartingY = arg0.getYOnScreen();
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent arg0) { /*Do nothing*/ }
+
+    @Override
+    public void mouseDragged(final MouseEvent arg0)
+    {
+        this.setLocation(nodeOldX + arg0.getXOnScreen() - mouseStartingX,
+                         nodeOldY + arg0.getYOnScreen() - mouseStartingY);
+    }
+
+    @Override
+    public void mouseMoved(final MouseEvent arg0) { /*Do nothing*/ }
 }

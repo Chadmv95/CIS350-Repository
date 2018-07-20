@@ -16,6 +16,4 @@ public class TreeView extends JPanel {
 //        displayPanel.setMinimumSize(new Dimension(200, 100));
         this.setVisible(true);
     }
-    
-    
 }
