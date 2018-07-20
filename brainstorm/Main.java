@@ -12,7 +12,7 @@ public abstract class Main {
         JMenuBar menuBar = buildMenuBar();
         window.setJMenuBar(menuBar);
         
-        JPanel tree = new TreeView();
+        TreeView tree = new TreeView();
         
         window.add(tree, BorderLayout.CENTER);
         
@@ -21,14 +21,14 @@ public abstract class Main {
         Rectangle bounds = new Rectangle(20, 20, 200, 100);
         nodeView.setBounds(bounds);
         node.setBounds(bounds);
-        tree.add(nodeView);
+        tree.addToDocumentPanel(nodeView);
         
         node = new Node("Second One", "Other Cool Stuff");
         nodeView = new NodeView(node);
         bounds = new Rectangle(300, 50, 150, 150);
         nodeView.setBounds(bounds);
         node.setBounds(bounds);
-        tree.add(nodeView);
+        tree.addToDocumentPanel(nodeView);
         
         window.pack();
         window.setVisible(true);
