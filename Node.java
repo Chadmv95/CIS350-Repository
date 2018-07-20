@@ -1,30 +1,45 @@
+import java.util.List;
 import java.util.ArrayList;
 
 /*
  * class for Nodes in the B+ tree
  */
 public class Node {
-    private String content;
+    private String name, content;
 
     private ArrayList<Node> children;
     private Node parent;
 
-    Node(final String content) {
+    Node(final String name, final String content) {
+        this.name = name;
         this.content = content;
         children = new ArrayList<Node>(5);
     }
     
     Node() {
-        this.content = " ";
+        this.name = "Insert Name";
+        this.content = "Insert Content";
         children = new ArrayList<Node>(5);
     }
 
-    public void setContent(final String content) {
-        this.content = content;
+    public void setName(final String newName) {
+        this.name = newName;
+    }
+
+    public void setContent(final String newContent) {
+        this.content = newContent;
+    }
+    
+    public String getName() {
+        return this.name;
     }
     
     public String getContent() {
         return this.content;
+    }
+    
+    public String toString() {
+        return getName() + ": " + getContent();
     }
 
     /*
@@ -84,6 +99,10 @@ public class Node {
     	
     	this.children.remove(child);
     	return true;
+    }
+    
+    public List<Node> getChildren() {
+        return this.children;
     }
 
     public Node getChildren(final int i) {

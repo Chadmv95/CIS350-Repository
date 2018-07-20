@@ -1,88 +1,63 @@
-import java.util.Scanner;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
-public abstract class main {
+public abstract class Main {
     
     public static void main(final String[] args) {
-        Scanner input = new Scanner(System.in, "utf-8");
-        String userString;
-        int userInt = 0;
+        JFrame window = new JFrame("Brainstorm Helper");
+        window.setMinimumSize(new Dimension(500,500));
         
-        System.out.println("==============================");
-        System.out.println("======Brainstorm Helper!======");
-        System.out.println("==============================");
+        JMenuBar menuBar = buildMenuBar();
+        window.setJMenuBar(menuBar);
         
-        System.out.println("Please enter a string for the starting node");
-        userString = input.nextLine();
+        JPanel tree = new TreeView();
         
-        BPlusTree tree = new BPlusTree(userString);
+        window.add(tree, BorderLayout.CENTER);
         
-        while (userInt != 4) {
-        	
-        	System.out.println("");
-	        System.out.println("What would you like to do?");
-	        System.out.println("1) Add a node");
-	        System.out.println("2) Delete a node");
-	        System.out.println("3) Print the tree");
-	        System.out.println("4) Exit the program");
-	        
-	        userInt = input.nextInt();
-	        input.nextLine();
-	        
-	        switch (userInt) {
-	        case 1: //add a node to the tree
-	        	System.out.println("Where would you like to add the new node?");
-	        	System.out.println("1) Under root node");
-	        	System.out.println("2) Under another node");
-	        	
-	        	userInt = input.nextInt();
-	        	input.nextLine();
-	        	
-	        	if (userInt == 2) {
-	        		System.out.println("Enter node title");
-	        		userString = input.nextLine();
-	        		Node addToChild = new Node(userString);
-	        		
-	        		System.out.println("Enter title of parent to add node to");
-	        		userString = input.nextLine();
-	        		
-	        		//add new node as a child to searched node
-	        		if (tree.add(tree.search(userString), addToChild))
-	        			System.out.println("Node added to tree!");
-	        		
-	        	} else {
-	        		System.out.println("Enter node title");
-	        		userString = input.nextLine();
-	        		Node addToRoot = new Node(userString);
-	        		
-	        		if (tree.add(addToRoot))
-	        			System.out.println("Node added to tree!");
-	        		else System.out.println("Could not find node with that name");
-	        	}
-	        	
-	        	break;
-	        case 2: //delete a node from the tree
-	        	System.out.println("Enter a node name to delete");
-	        	userString = input.nextLine();
-        		Node deleteFromTree = tree.search(userString);
-	        	
-        		if (tree.delete(deleteFromTree)) //delete from tree
-        			System.out.println("Node deleted from tree!");
-        		else System.out.println("Could not find node with that name");
-	        	
-	        	break;
-	        case 3: //print the tree
-	        	tree.printTree();
-	        	break;
-	        case 4: //exit the program
-	        	System.out.close();
-	        	break;
-	        default:
-	        	System.out.close();
-	        }
-	        
-        }
+        NodeView node = new NodeView(new Node());
         
-        input.close();
+        tree.add(node, BorderLayout.PAGE_END);
         
+        Rectangle bounds = new Rectangle(20, 20, 200, 100);
+        
+        node.setBounds(bounds);
+        
+        window.pack();
+        window.setVisible(true);
+    }
+    
+    private static JMenuBar buildMenuBar() {
+        JMenuBar menuBar = new JMenuBar();
+        
+        JMenu fileMenu = new JMenu("File");
+        fileMenu.setMnemonic(KeyEvent.VK_F);
+        menuBar.add(fileMenu);
+        
+        JMenuItem newFile = new JMenuItem("New");
+        JMenuItem openFile = new JMenuItem("Open");
+        JMenuItem saveFile = new JMenuItem("Save");
+        JMenuItem printFile = new JMenuItem("Print");
+        JMenuItem exit = new JMenuItem("Exit");
+        
+        fileMenu.add(newFile);
+        fileMenu.add(openFile);
+        fileMenu.add(saveFile);
+        fileMenu.add(printFile);
+        fileMenu.add(exit);
+        
+        JMenu editMenu = new JMenu("Edit");
+        editMenu.setMnemonic(KeyEvent.VK_E);
+        menuBar.add(editMenu);
+        
+        JMenuItem createNode = new JMenuItem("Create Node");
+        JMenuItem editNode = new JMenuItem("Edit Node");
+        JMenuItem deleteNode = new JMenuItem("Delete Node");
+        
+        editMenu.add(createNode);
+        editMenu.add(editNode);
+        editMenu.add(deleteNode);
+        
+        return menuBar;
     }
 }

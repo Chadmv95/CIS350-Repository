@@ -60,14 +60,14 @@ public class NodeTest {
 
     /**
      * Tests the following methods:
-     * Node.Node(String)
-     * Node.getContent()
+     * Node.Node(String, String)
+     * Node.getName()
      */
     @Test
     public void testNode2() {
         String val = "This is a test";
-        Node node = new Node(val);
-        assertTrue(val.equals(node.getContent()));
+        Node node = new Node(val, "");
+        assertTrue(val.equals(node.getName()));
     }
 
     /**
@@ -77,8 +77,8 @@ public class NodeTest {
      */
     @Test
     public void testChildren1() {
-        Node parent = new Node("Parent");
-        Node child = new Node("Child");
+        Node parent = new Node("Parent", "");
+        Node child = new Node("Child", "");
         parent.setChildren(child, 1);
         assertTrue(child.equals(parent.getChildren(1)));
     }
@@ -89,7 +89,7 @@ public class NodeTest {
 	 */
 	@Test
 	public void testChildren2() {
-		Node parent = new Node("Parent");
+		Node parent = new Node("Parent", "");
 		assertFalse(parent.setChildren(null, 1));
 	}
 
@@ -99,7 +99,7 @@ public class NodeTest {
 	 */
 	@Test
 	public void testChildren3() {
-		Node parent = new Node("Parent");
+		Node parent = new Node("Parent", "");
 		assertFalse(parent.setChildren(null));
 	}
 
@@ -110,12 +110,12 @@ public class NodeTest {
 	 */
 	@Test
 	public void testChildren4() {
-		Node parent = new Node("Parent");
-		parent.setChildren(new Node("Child 1"), 2);  // Put child 1 in position 2
-		parent.setChildren(new Node("Child 2"));     // Child 2 should now end up in position 0
-		parent.setChildren(new Node("Child 3"));     // And Child 3 should get position 1
+		Node parent = new Node("Parent", "");
+		parent.setChildren(new Node("Child 1", ""), 2);  // Put child 1 in position 2
+		parent.setChildren(new Node("Child 2", ""));     // Child 2 should now end up in position 0
+		parent.setChildren(new Node("Child 3", ""));     // And Child 3 should get position 1
 		
-		assertEquals("Child 2", parent.getChildren(0).getContent());
+		assertEquals("Child 2", parent.getChildren(0).getName());
 	}
 
 	/**
@@ -125,10 +125,10 @@ public class NodeTest {
 	 */
 	@Test
 	public void testGetNumChildren1() {
-		Node parent = new Node("Parent");
-		parent.setChildren(new Node("Child 1"));
-		parent.setChildren(new Node("Child 2"));
-		parent.setChildren(new Node("Child 3"));
+		Node parent = new Node("Parent", "");
+		parent.setChildren(new Node("Child 1", ""));
+		parent.setChildren(new Node("Child 2", ""));
+		parent.setChildren(new Node("Child 3", ""));
 		
 		assertEquals(parent.getNumChildren(), 3);
 	}

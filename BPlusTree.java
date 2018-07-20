@@ -1,4 +1,6 @@
 import java.io.PrintStream;
+import java.util.List;
+import java.util.ArrayList;
 
 public class BPlusTree {
     private Node root;
@@ -6,15 +8,15 @@ public class BPlusTree {
     /*
      * creates root node with given data
      */
-    public BPlusTree(final String data) {
-        root = new Node(data);
+    public BPlusTree(final String name, final String data) {
+        root = new Node(name, data);
     }
     
     /*
      * creates root node with no data
      */
     public BPlusTree() {
-        root = new Node("");
+        root = new Node();
     }
     
     /*
@@ -83,6 +85,25 @@ public class BPlusTree {
             return false;
         
         return root.setChildren(child, childNum);
+    }
+    
+    public List<Node> getAllNodes() {
+        return getAllDescendants(root);
+    }
+    
+    /*
+     * Helper function for getAllNodes().
+     * 
+     * Returns all of the children of parent, and
+     * grandchildren, great grandchildren, etc.
+     */
+    private List<Node> getAllDescendants(final Node parent) {
+        List<Node> retVal = new ArrayList<Node>();
+        for (Node n: parent.getChildren()) {
+            retVal.add(n);
+            retVal.addAll(getAllDescendants(n));
+        }
+        return retVal;
     }
     
     /*
@@ -175,7 +196,7 @@ public class BPlusTree {
     private void printBranch(final Node parent, final String treeStructure,
                              final String next, final PrintStream stream) {
         // Print the parent of this branch
-        stream.println(treeStructure + "|--> " + parent.getContent());
+        stream.println(treeStructure + "|--> " + parent.toString());
         
         
         // Then print all of its babies at one more depth than this
