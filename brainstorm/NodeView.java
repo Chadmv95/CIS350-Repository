@@ -1,15 +1,18 @@
+package brainstorm;
 import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class NodeView extends JPanel  implements MouseListener, MouseMotionListener {
+public class NodeView extends JPanel  implements MouseListener,
+                                                 MouseMotionListener {
     
     private JTextField nameField;
     private JTextArea contentField;
     private Color borderColor = Color.DARK_GRAY; //Default Color
     
-    private int mouseStartingX = 0, mouseStartingY = 0, nodeOldX = 0, nodeOldY = 0;
+    private int mouseStartingX = 0, mouseStartingY = 0,
+                nodeOldX = 0, nodeOldY = 0;
     
     public NodeView() {
         nameField = new JTextField("Insert Name");
@@ -33,8 +36,10 @@ public class NodeView extends JPanel  implements MouseListener, MouseMotionListe
         this.add(Box.createRigidArea(new Dimension(0, 5)));
         
         JScrollPane sp = new JScrollPane(contentField);
-        sp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        sp.setHorizontalScrollBarPolicy(ScrollPaneConstants.
+                                        HORIZONTAL_SCROLLBAR_NEVER);
+        sp.setVerticalScrollBarPolicy(ScrollPaneConstants.
+                                      VERTICAL_SCROLLBAR_AS_NEEDED);
         sp.setPreferredSize(new Dimension(200,100));
         contentField.setLineWrap(true);
         contentField.setWrapStyleWord(true);
@@ -48,7 +53,7 @@ public class NodeView extends JPanel  implements MouseListener, MouseMotionListe
         this.addMouseMotionListener(this);
     }
     
-    public void setName(String name) {
+    public void setName(final String name) {
         this.nameField.setText(name);
     }
     
@@ -56,7 +61,7 @@ public class NodeView extends JPanel  implements MouseListener, MouseMotionListe
         return this.nameField.getText();
     }
     
-    public void setContent(String content) {
+    public void setContent(final String content) {
         this.contentField.setText(content);
     }
     
@@ -64,7 +69,7 @@ public class NodeView extends JPanel  implements MouseListener, MouseMotionListe
         return this.contentField.getText();
     }
     
-    public void setBorderColor(Color c) {
+    public void setBorderColor(final Color c) {
         this.setBorder(BorderFactory.createLineBorder(c, 3, true));
     }
     
@@ -77,16 +82,20 @@ public class NodeView extends JPanel  implements MouseListener, MouseMotionListe
     }
 
     @Override
-    public void mouseClicked(MouseEvent arg0) { /*Do nothing*/ }
+    public void mouseClicked(final MouseEvent arg0) {
+        if (arg0.isPopupTrigger()) {
+            // TODO Implement pop-up menu for editing node
+        }
+    }
 
     @Override
-    public void mouseEntered(MouseEvent arg0) { /*Do nothing*/ }
+    public void mouseEntered(final MouseEvent arg0) { /*Do nothing*/ }
 
     @Override
-    public void mouseExited(MouseEvent arg0) { /*Do nothing*/ }
+    public void mouseExited(final MouseEvent arg0) { /*Do nothing*/ }
 
     @Override
-    public void mousePressed(MouseEvent arg0) {
+    public void mousePressed(final MouseEvent arg0) {
         nodeOldX = this.getX();
         nodeOldY = this.getY();
         
@@ -95,11 +104,10 @@ public class NodeView extends JPanel  implements MouseListener, MouseMotionListe
     }
 
     @Override
-    public void mouseReleased(MouseEvent arg0) { /*Do nothing*/ }
+    public void mouseReleased(final MouseEvent arg0) { /*Do nothing*/ }
 
     @Override
-    public void mouseDragged(final MouseEvent arg0)
-    {
+    public void mouseDragged(final MouseEvent arg0) {
         this.setLocation(nodeOldX + arg0.getXOnScreen() - mouseStartingX,
                          nodeOldY + arg0.getYOnScreen() - mouseStartingY);
     }

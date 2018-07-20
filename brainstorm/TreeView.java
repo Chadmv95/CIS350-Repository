@@ -1,3 +1,4 @@
+package brainstorm;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 

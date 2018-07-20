@@ -1,3 +1,4 @@
+package brainstorm;
 import java.util.List;
 import java.util.ArrayList;
 import java.awt.Rectangle;
@@ -6,10 +7,35 @@ import java.awt.Rectangle;
  * class for Nodes in the B+ tree
  */
 public class Node {
-    private String name, content;
+    
+    /**
+     * The name/title of this Node
+     */
+    private String name;
+    
+    /**
+     * The content/data associated with this Node.
+     */
+    private String content;
 
+    /**
+     * A List of all of this Node's children.
+     */
     private ArrayList<Node> children;
+    
+    /**
+     * A reference to this Node's parent. This is important when deleting
+     * this Node so that it can tell it's parent not to count this Node
+     * among the parent's children.
+     */
     private Node parent;
+    
+    /**
+     * This variable contains information on the position of the node in
+     * the GUI and document. This is important when saving or loading a
+     * brainstorming document so that the document remains the same
+     * between sessions.
+     */
     private Rectangle bounds;
 
     Node(final String name, final String content) {
@@ -52,7 +78,11 @@ public class Node {
     
     @Override
     public String toString() {
-        return getName() + ": " + getContent();
+        String retVal = getName();
+        if (getContent() != null && !getContent().equals("")) {
+            retVal += ": " + getContent();
+        }
+        return retVal;
     }
 
     /*
@@ -64,14 +94,16 @@ public class Node {
      */
     public boolean setChildren(final Node child, final int i) {
     	
-    	if(child == null)
+    	if(child == null) {
     	    return false;
+    	}
     	
         // If we REALLY want to put the child at a specific index,
         // then we're going to have to add some null children to the
         // ArrayList. Otherwise, we will get an error from ArrayList
-		while(this.children.size() <= i)
+		while(this.children.size() <= i) {
             this.children.add(null);
+		}
         
 		//Add the child at location i
         this.children.set(i, child);
@@ -89,15 +121,17 @@ public class Node {
      * returns false if child is null
      */
     public boolean setChildren(final Node child) {
-        if(child == null) 
+        if(child == null) {
             return false;
+        }
         
         // Find the first empty location, and put the child there
         int firstNullPosition = this.children.indexOf(null);
-        if(firstNullPosition == -1)
+        if(firstNullPosition == -1) {
             this.children.add(child);
-        else
+        } else {
             this.children.set(firstNullPosition, child);
+        }
         
         // Set the child's parent to this
         child.setParent(this);
@@ -107,8 +141,9 @@ public class Node {
     
     public boolean removeChildren(final Node child) {
     	
-    	if (child == null)
+    	if (child == null) {
     		return false;
+    	}
     	
     	this.children.remove(child);
     	return true;

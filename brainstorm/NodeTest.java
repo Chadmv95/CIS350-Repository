@@ -1,50 +1,21 @@
-import static org.junit.Assert.*;
+package brainstorm;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * 
- */
-
-/**
  * @author Brian Gilbert
- *
+ * 
+ * This class contains the JUnit tests for the Node class.
+ * 
  */
 public class NodeTest {
 
     /**
-     * @throws java.lang.Exception
-     */
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
-    }
-
-    /**
-     * @throws java.lang.Exception
-     */
-    @AfterClass
-    public static void tearDownAfterClass() throws Exception {
-    }
-
-    /**
-     * @throws java.lang.Exception
-     */
-    @Before
-    public void setUp() throws Exception {
-    }
-
-    /**
-     * @throws java.lang.Exception
-     */
-    @After
-    public void tearDown() throws Exception {
-    }
-
-    /**
+     * This test creates a node, then verifies its contents.
+     * 
      * Tests the following methods:
      * Node.Node()
      * Node.setContent();
@@ -59,6 +30,8 @@ public class NodeTest {
     }
 
     /**
+     * This test creates a node, then verifies its contents.
+     * 
      * Tests the following methods:
      * Node.Node(String, String)
      * Node.getName()
@@ -71,6 +44,9 @@ public class NodeTest {
     }
 
     /**
+     * This test creates a parent and a child, then checks that
+     * the relationship was formed properly.
+     * 
      * Tests the following methods:
      * Node.setChildren(Node, int)
      * Node.getChildren(int)
@@ -84,6 +60,9 @@ public class NodeTest {
     }
 
 	/**
+	 * This tests that setChildren returns false when given a
+	 * null value as the child to set.
+	 * 
 	 * Tests the following methods when passed a null value:
 	 * Node.setChildren(Node, int)
 	 */
@@ -94,6 +73,9 @@ public class NodeTest {
 	}
 
 	/**
+	 * This tests that setChildren returns false when given a
+     * null value as the child to set.
+     * 
 	 * Tests the following methods when passed a null value:
 	 * Node.setChildren(Node)
 	 */
@@ -104,6 +86,9 @@ public class NodeTest {
 	}
 
 	/**
+	 * This tests that setChildren functions allow arbitrary
+	 * placement in any order as desired.
+     * 
 	 * Tests the following methods:
 	 * Node.setChildren(Node, int)
 	 * Node.setChildren(Node)
@@ -111,14 +96,20 @@ public class NodeTest {
 	@Test
 	public void testChildren4() {
 		Node parent = new Node("Parent", "");
-		parent.setChildren(new Node("Child 1", ""), 2);  // Put child 1 in position 2
-		parent.setChildren(new Node("Child 2", ""));     // Child 2 should now end up in position 0
-		parent.setChildren(new Node("Child 3", ""));     // And Child 3 should get position 1
+		// Put child 1 in position 2
+		parent.setChildren(new Node("Child 1", ""), 2);
+		// Child 2 should now end up in position 0
+		parent.setChildren(new Node("Child 2", ""));
+		// And Child 3 should get position 1
+		parent.setChildren(new Node("Child 3", ""));
 		
 		assertEquals("Child 2", parent.getChildren(0).getName());
 	}
 
 	/**
+     * This test makes sure that the getNumChildren function
+     * is working properly.
+     * 
 	 * Tests the following methods:
 	 * Node.setChildren(Node, int)
 	 * Node.setChildren(Node)
