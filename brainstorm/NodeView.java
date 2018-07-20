@@ -78,7 +78,9 @@ public class NodeView extends JPanel  implements MouseListener,
     private void buildNodeView() {
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         
-        this.add(nameField);
+        this.add(this.nameField);
+        
+        this.nameField.setMaximumSize(new Dimension(500, 50));
         
         this.add(Box.createRigidArea(new Dimension(0, 5)));
         
@@ -88,8 +90,8 @@ public class NodeView extends JPanel  implements MouseListener,
         sp.setVerticalScrollBarPolicy(ScrollPaneConstants.
                                       VERTICAL_SCROLLBAR_AS_NEEDED);
         sp.setPreferredSize(new Dimension(200, 100));
-        contentField.setLineWrap(true);
-        contentField.setWrapStyleWord(true);
+        this.contentField.setLineWrap(true);
+        this.contentField.setWrapStyleWord(true);
         this.add(sp);
         
         setBorderColor(this.borderColor);
