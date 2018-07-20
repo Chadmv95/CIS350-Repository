@@ -40,7 +40,7 @@ public class NodeView extends JPanel  implements MouseListener,
                                         HORIZONTAL_SCROLLBAR_NEVER);
         sp.setVerticalScrollBarPolicy(ScrollPaneConstants.
                                       VERTICAL_SCROLLBAR_AS_NEEDED);
-        sp.setPreferredSize(new Dimension(200,100));
+        sp.setPreferredSize(new Dimension(200, 100));
         contentField.setLineWrap(true);
         contentField.setWrapStyleWord(true);
         this.add(sp);

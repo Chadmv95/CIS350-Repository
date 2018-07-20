@@ -7,7 +7,7 @@ public abstract class Main {
     
     public static void main(final String[] args) {
         JFrame window = new JFrame("Brainstorm Helper");
-        window.setMinimumSize(new Dimension(500,500));
+        window.setMinimumSize(new Dimension(500, 500));
         
         JMenuBar menuBar = buildMenuBar();
         window.setJMenuBar(menuBar);
@@ -25,7 +25,7 @@ public abstract class Main {
         
         node = new Node("Second One", "Other Cool Stuff");
         nodeView = new NodeView(node);
-        bounds = new Rectangle(300,50,150,150);
+        bounds = new Rectangle(300, 50, 150, 150);
         nodeView.setBounds(bounds);
         node.setBounds(bounds);
         tree.add(nodeView);

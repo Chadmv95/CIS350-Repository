@@ -57,29 +57,6 @@ public class BPlusTree {
     public Node getRoot() {
         return root;
     }
-
-    /**
-     * Add a node to the tree underneath the selected parent
-     * at the selected position.
-     * 
-     * returns true on successful add
-     * returns false if child is null
-     * 
-     * @param parent The Node to which the child is to be added.
-     * @param child The Node which is to be added.
-     * @param childNum The desired final position among parent's children for
-     * the child node.
-     * 
-     * @return Whether or not the add was successful
-     */
-    public boolean add(final Node parent, final Node child,
-                       final int childNum) {
-        if (child == null || child.getContent().equals("")) {
-            return false;
-        }
-        
-        return parent.setChildren(child, childNum);
-    }
     
     /**
      * Adds node to the first available slot among parent's children.
@@ -93,11 +70,11 @@ public class BPlusTree {
      * @return Whether or not the add was successful.
      */
     public boolean add(final Node parent, final Node child) {
-        if (parent == null || child == null || child.getContent().equals("")) {
+        if (parent == null || child == null) {
             return false;
         }
         
-        return parent.setChildren(child);
+        return parent.addChild(child);
     }
     
     /**
@@ -110,32 +87,11 @@ public class BPlusTree {
      * @return Whether or not the add was successful.
      */
     public boolean add(final Node child) {
-        if (child == null || child.getContent().equals("")) { 
+        if (child == null) { 
             return false;
         }
         
-        return root.setChildren(child);
-    }
-    
-    /**
-     * Adds a node to the tree as a child of the root node
-     * at the selected position.
-     * 
-     * returns true on successful add
-     * returns false if child is null
-     * 
-     * @param child The Node to add to the tree.
-     * @param childNum The desired position for the child among root's
-     * children.
-     * 
-     * @return Whether or not the add was successful.
-     */
-    public boolean add(final Node child, final int childNum) {
-        if (child == null || child.getContent().equals("")) {
-            return false;
-        }
-        
-        return root.setChildren(child, childNum);
+        return root.addChild(child);
     }
     
     /**
@@ -185,7 +141,7 @@ public class BPlusTree {
     		return false;
     	} else {
     		//remove all links between the node and its parent
-	    	tbd.getParent().removeChildren(tbd);
+	    	tbd.getParent().removeChild(tbd);
 	    	tbd.setParent(null);
 	    	
 	    	//delete the node's children
@@ -290,12 +246,12 @@ public class BPlusTree {
         // The first children all have trailing "sticks"
         // for all descendants to carry
         for (i = 0; i < parent.getNumChildren() - 1; i++) {
-            printBranch(parent.getChildren(i), treeStructure
+            printBranch(parent.getChild(i), treeStructure
                         + next, "|    ", stream);
         }
         // The last child doesn't display a "stick"
         if (i < parent.getNumChildren()) {
-            printBranch(parent.getChildren(i), treeStructure
+            printBranch(parent.getChild(i), treeStructure
                         + next, "     ", stream);
         }
     }

@@ -3,13 +3,16 @@ import java.util.List;
 import java.util.ArrayList;
 import java.awt.Rectangle;
 
-/*
- * class for Nodes in the B+ tree
+/**
+ * Class for Nodes in the B+ tree.
+ * 
+ * @author Brian Gilbert
+ * @author Chad Vredvald
  */
 public class Node {
     
     /**
-     * The name/title of this Node
+     * The name/title of this Node.
      */
     private String name;
     
@@ -38,6 +41,12 @@ public class Node {
      */
     private Rectangle bounds;
 
+    /**
+     * Constructor that builds a new Node using the Strings given.
+     * 
+     * @param name The desired name/title for the node.
+     * @param content the desired data/content for the node.
+     */
     Node(final String name, final String content) {
         this.name = name;
         this.content = content;
@@ -46,32 +55,70 @@ public class Node {
         bounds = new Rectangle(10, 10, 100, 100);
     }
     
+    /**
+     * Constructor that builds a new Node using default values.
+     * 
+     * Name becomes "Insert Name"
+     * Content becomes "Insert Content"
+     */
     Node() {
         this.name = "Insert Name";
         this.content = "Insert Content";
         children = new ArrayList<Node>(5);
     }
 
+    /**
+     * Sets the name/title of the node.
+     * 
+     * @param newName The desired name/title.
+     */
     public void setName(final String newName) {
         this.name = newName;
     }
 
+    /**
+     * Sets the content/data of the node.
+     * 
+     * @param newContent The desired content/data.
+     */
     public void setContent(final String newContent) {
         this.content = newContent;
     }
     
-    public void setBounds(Rectangle bounds) {
+    /**
+     * Sets the location and size of the Node as seen in 
+     * the GUI and in the document.
+     * 
+     * @param bounds The desired location and size.
+     */
+    public void setBounds(final Rectangle bounds) {
         this.bounds = bounds;
     }
     
+    /**
+     * Retrieves the name/title of the node.
+     * 
+     * @return The name/title of the node.
+     */
     public String getName() {
         return this.name;
     }
     
+    /**
+     * Retrieves the content/data of the node.
+     * 
+     * @return The content/data of the node.
+     */
     public String getContent() {
         return this.content;
     }
     
+    /**
+     * Retrieves the location and size of the node as seen 
+     * in the GUI and in the document.
+     * 
+     * @return The location and size of the node.
+     */
     public Rectangle getBounds() {
         return bounds;
     }
@@ -84,50 +131,24 @@ public class Node {
         }
         return retVal;
     }
-
-    /*
-     * sets child to given parameter at given location
-     * don't use this
-     * 
-     * returns true upon success
-     * returns false if child is null
-     */
-    public boolean setChildren(final Node child, final int i) {
-    	
-    	if(child == null) {
-    	    return false;
-    	}
-    	
-        // If we REALLY want to put the child at a specific index,
-        // then we're going to have to add some null children to the
-        // ArrayList. Otherwise, we will get an error from ArrayList
-		while(this.children.size() <= i) {
-            this.children.add(null);
-		}
-        
-		//Add the child at location i
-        this.children.set(i, child);
-        
-        // Now set the child's parent to this
-        child.setParent(this);
-        
-        return true;
-    }
     
-    /*
-     * sets child to parameter given at lowest possible location
+    /**
+     * Adds child to the list of this node's children.
      * 
      * returns true upon success
      * returns false if child is null
+     * 
+     * @param child The node to be added
+     * @return Whether or not the add was successful
      */
-    public boolean setChildren(final Node child) {
-        if(child == null) {
+    public boolean addChild(final Node child) {
+        if (child == null) {
             return false;
         }
         
         // Find the first empty location, and put the child there
         int firstNullPosition = this.children.indexOf(null);
-        if(firstNullPosition == -1) {
+        if (firstNullPosition == -1) {
             this.children.add(child);
         } else {
             this.children.set(firstNullPosition, child);
@@ -139,34 +160,67 @@ public class Node {
         return true;
     }
     
-    public boolean removeChildren(final Node child) {
+    /**
+     * Removes the requested node from among this node's children.
+     * 
+     * @param child The child node that is desired to be removed from this
+     * node's list of children.
+     * @return <code>true</code> if this node had child among its children
+     */
+    public boolean removeChild(final Node child) {
     	
     	if (child == null) {
     		return false;
     	}
     	
-    	this.children.remove(child);
-    	return true;
+    	return this.children.remove(child);
     }
     
+    /**
+     * Retrieves the list of this node's children.
+     * @return A List containing the children of this node.
+     */
     public List<Node> getChildren() {
         return this.children;
     }
 
-    public Node getChildren(final int i) {
-        return this.children.get(i);
+    /**
+     * Retrieves the child at the requested index.
+     * 
+     * @param index The index of the desired child node.
+     * @return The requested child. If the index is out of range,
+     * this function returns null instead
+     */
+    public Node getChild(final int index) {
+        if (index >= children.size()) {
+            return null;
+        }
+        
+        return this.children.get(index);
     }
     
+    /**
+     * Retrieves the number of children of this node.
+     * @return The number of children as an integer.
+     */
     public int getNumChildren() {
         return this.children.size();
     }
     
+    /**
+     * Retrieves the parent of this node.
+     * @return This node's parent
+     */
     public Node getParent() {
     	return this.parent;
     }
     
-    public void setParent(final Node p) {
-    	this.parent = p;
+    /**
+     * Sets the argument as this node's parent.
+     * @param parent The new parent of this node.
+     */
+    public void setParent(final Node parent) {
+    	this.parent = parent;
     }
 
 }

@@ -55,8 +55,8 @@ public class NodeTest {
     public void testChildren1() {
         Node parent = new Node("Parent", "");
         Node child = new Node("Child", "");
-        parent.setChildren(child, 1);
-        assertTrue(child.equals(parent.getChildren(1)));
+        parent.addChild(child);
+        assertTrue(child.equals(parent.getChild(1)));
     }
 
 	/**
@@ -69,7 +69,7 @@ public class NodeTest {
 	@Test
 	public void testChildren2() {
 		Node parent = new Node("Parent", "");
-		assertFalse(parent.setChildren(null, 1));
+		assertFalse(parent.addChild(null));
 	}
 
 	/**
@@ -82,28 +82,7 @@ public class NodeTest {
 	@Test
 	public void testChildren3() {
 		Node parent = new Node("Parent", "");
-		assertFalse(parent.setChildren(null));
-	}
-
-	/**
-	 * This tests that setChildren functions allow arbitrary
-	 * placement in any order as desired.
-     * 
-	 * Tests the following methods:
-	 * Node.setChildren(Node, int)
-	 * Node.setChildren(Node)
-	 */
-	@Test
-	public void testChildren4() {
-		Node parent = new Node("Parent", "");
-		// Put child 1 in position 2
-		parent.setChildren(new Node("Child 1", ""), 2);
-		// Child 2 should now end up in position 0
-		parent.setChildren(new Node("Child 2", ""));
-		// And Child 3 should get position 1
-		parent.setChildren(new Node("Child 3", ""));
-		
-		assertEquals("Child 2", parent.getChildren(0).getName());
+		assertFalse(parent.addChild(null));
 	}
 
 	/**
@@ -117,9 +96,9 @@ public class NodeTest {
 	@Test
 	public void testGetNumChildren1() {
 		Node parent = new Node("Parent", "");
-		parent.setChildren(new Node("Child 1", ""));
-		parent.setChildren(new Node("Child 2", ""));
-		parent.setChildren(new Node("Child 3", ""));
+		parent.addChild(new Node("Child 1", ""));
+		parent.addChild(new Node("Child 2", ""));
+		parent.addChild(new Node("Child 3", ""));
 		
 		assertEquals(parent.getNumChildren(), 3);
 	}
