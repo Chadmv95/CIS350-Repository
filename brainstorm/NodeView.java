@@ -2,9 +2,6 @@ package brainstorm;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -22,8 +19,7 @@ import javax.swing.event.DocumentListener;
  *
  */
 @SuppressWarnings("serial")
-public class NodeView extends JPanel  implements MouseListener,
-                                                 MouseMotionListener {
+public class NodeView extends JPanel {
 
     /**
      * Container where the user can input the name/title.
@@ -41,15 +37,11 @@ public class NodeView extends JPanel  implements MouseListener,
     private Color borderColor = Color.DARK_GRAY; //Default Color
 
     /**
-     * Variables used during dragging operation.
-     */
-    private int mouseStartingX = 0, mouseStartingY = 0,
-                nodeOldX = 0, nodeOldY = 0;
-
-    /**
      * Constructor that creates a viewer with default text. 
      */
     public NodeView() {
+        super();
+        
         nameField = new JTextField("Insert Name");
         contentField = new JTextArea("Insert Content");
         
@@ -63,6 +55,8 @@ public class NodeView extends JPanel  implements MouseListener,
      * this NodeView object.
      */
     public NodeView(final Node node) {
+        super();
+        
         nameField = new JTextField(node.getName());
         contentField = new JTextArea(node.getContent());
         
@@ -97,9 +91,6 @@ public class NodeView extends JPanel  implements MouseListener,
         setBorderColor(this.borderColor);
         
         this.setVisible(true);
-        
-        this.addMouseListener(this);
-        this.addMouseMotionListener(this);
     }
 
     /**
@@ -167,38 +158,4 @@ public class NodeView extends JPanel  implements MouseListener,
     public void setContentFieldListener(final DocumentListener listener) {
         this.contentField.getDocument().addDocumentListener(listener);
     }
-
-    @Override
-    public void mouseClicked(final MouseEvent arg0) {
-//        if (arg0.isPopupTrigger()) {
-//            // TODO Implement pop-up menu for editing node
-//        }
-    }
-
-    @Override
-    public void mouseEntered(final MouseEvent arg0) { /*Do nothing*/ }
-
-    @Override
-    public void mouseExited(final MouseEvent arg0) { /*Do nothing*/ }
-
-    @Override
-    public void mousePressed(final MouseEvent arg0) {
-        nodeOldX = this.getX();
-        nodeOldY = this.getY();
-        
-        mouseStartingX = arg0.getXOnScreen();
-        mouseStartingY = arg0.getYOnScreen();
-    }
-
-    @Override
-    public void mouseReleased(final MouseEvent arg0) { /*Do nothing*/ }
-
-    @Override
-    public void mouseDragged(final MouseEvent arg0) {
-        this.setLocation(nodeOldX + arg0.getXOnScreen() - mouseStartingX,
-                         nodeOldY + arg0.getYOnScreen() - mouseStartingY);
-    }
-
-    @Override
-    public void mouseMoved(final MouseEvent arg0) { /*Do nothing*/ }
 }

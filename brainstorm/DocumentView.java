@@ -22,6 +22,7 @@ public class DocumentView extends JPanel implements Scrollable {
      * @param size Desired size of the document.
      */
     DocumentView(final Dimension size) {
+        super();
         this.setPreferredSize(size);
     }
     

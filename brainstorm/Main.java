@@ -1,7 +1,10 @@
 package brainstorm;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Rectangle;
+
+import javax.swing.JFrame;
 
 public abstract class Main {
     
@@ -13,10 +16,17 @@ public abstract class Main {
      * @param args Arguments passed to the program from the system.
      */
     public static void main(final String[] args) {
+        buildWindow();
+    }
+    
+    /**
+     * Builds the physical window that the user can then interact with.
+     */
+    private static void buildWindow() {
         JFrame window = new JFrame("Brainstorm Helper");
         window.setMinimumSize(new Dimension(500, 500));
         
-        JMenuBar menuBar = buildMenuBar();
+        MenuBarView menuBar = new MenuBarView();
         window.setJMenuBar(menuBar);
         
         TreeView tree = new TreeView();
@@ -28,50 +38,18 @@ public abstract class Main {
         Rectangle bounds = new Rectangle(20, 20, 200, 100);
         nodeView.setBounds(bounds);
         node.setBounds(bounds);
-        tree.addToDocumentPanel(nodeView);
+        NodeController nodeController = new NodeController(node, nodeView);
+        tree.addToDocumentPanel(nodeController.getView());
         
         node = new Node("Second One", "Other Cool Stuff");
         nodeView = new NodeView(node);
         bounds = new Rectangle(300, 50, 150, 150);
         nodeView.setBounds(bounds);
         node.setBounds(bounds);
-        tree.addToDocumentPanel(nodeView);
+        nodeController = new NodeController(node, nodeView);
+        tree.addToDocumentPanel(nodeController.getView());
         
         window.pack();
         window.setVisible(true);
-    }
-    
-    private static JMenuBar buildMenuBar() {
-        JMenuBar menuBar = new JMenuBar();
-        
-        JMenu fileMenu = new JMenu("File");
-        fileMenu.setMnemonic(KeyEvent.VK_F);
-        menuBar.add(fileMenu);
-        
-        JMenuItem newFile = new JMenuItem("New");
-        JMenuItem openFile = new JMenuItem("Open");
-        JMenuItem saveFile = new JMenuItem("Save");
-        JMenuItem printFile = new JMenuItem("Print");
-        JMenuItem exit = new JMenuItem("Exit");
-        
-        fileMenu.add(newFile);
-        fileMenu.add(openFile);
-        fileMenu.add(saveFile);
-        fileMenu.add(printFile);
-        fileMenu.add(exit);
-        
-        JMenu editMenu = new JMenu("Edit");
-        editMenu.setMnemonic(KeyEvent.VK_E);
-        menuBar.add(editMenu);
-        
-        JMenuItem createNode = new JMenuItem("Create Node");
-        JMenuItem editNode = new JMenuItem("Edit Node");
-        JMenuItem deleteNode = new JMenuItem("Delete Node");
-        
-        editMenu.add(createNode);
-        editMenu.add(editNode);
-        editMenu.add(deleteNode);
-        
-        return menuBar;
     }
 }

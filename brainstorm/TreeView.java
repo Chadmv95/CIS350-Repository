@@ -23,6 +23,8 @@ public class TreeView extends JPanel {
      * Constructor that creates a JPanel for displaying the tree.
      */
     public TreeView() {
+        super();
+        
         this.documentPanel = new DocumentView(new Dimension(1000, 700));
         this.scrollPane = new JScrollPane(documentPanel);
         this.scrollPane.setPreferredSize(new Dimension(500, 500));
