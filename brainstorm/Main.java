@@ -1,5 +1,11 @@
 package brainstorm;
 
+/**
+ * Main class containing the main method to start the program.
+ * 
+ * @author Brian Gilbert
+ *
+ */
 public abstract class Main {
     /**
      * The starting point of the program. This will create all of the
