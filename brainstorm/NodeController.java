@@ -4,12 +4,21 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-public class NodeController implements MouseListener, MouseMotionListener,
+/**
+ * A controller class for the Node and NodeView classes. Uses the
+ * Model-View-Presenter framework.
+ * 
+ * @author Brian Gilbert
+ *
+ */
+public class NodeController implements MouseListener,
+                                       MouseMotionListener,
                                        DocumentListener {
-
     /**
      * The node that this class controls.
      */
@@ -109,20 +118,28 @@ public class NodeController implements MouseListener, MouseMotionListener,
 
     @Override
     public void mousePressed(final MouseEvent e) {
+        // Store the location information so that we can reference it
+        // as we drag the mouse around on the screen
         nodeOldX = view.getX();
         nodeOldY = view.getY();
-        
         mouseStartingX = e.getXOnScreen();
         mouseStartingY = e.getYOnScreen();
     }
 
     @Override
-    public void mouseReleased(final MouseEvent e) { /*Do nothing*/ }
+    public void mouseReleased(final MouseEvent e) {
+        if (e.getComponent() == this.view) { 
+            // Update the value stored in the Node so it can be saved
+            this.node.setBounds(this.view.getBounds());
+        }
+    }
 
     
     // ******************* MouseMotionListener Methods ************************
     @Override
     public void mouseDragged(final MouseEvent e) {
+        // Update the location on the screen based on where the mouse is
+        // now compared to where it was when we first clicked.
         view.setLocation(nodeOldX + e.getXOnScreen() - mouseStartingX,
                          nodeOldY + e.getYOnScreen() - mouseStartingY);
     }
