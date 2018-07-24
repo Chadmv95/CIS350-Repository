@@ -6,33 +6,38 @@ import java.awt.Rectangle;
 
 import javax.swing.JFrame;
 
-public abstract class ApplicationController {
+public class ApplicationController {
     
-    /**
-     * The starting point of the program. This will create all of the
-     * necessary controllers, models, and views so that the program
-     * can run.
-     * 
-     * @param args Arguments passed to the program from the system.
-     */
-    public static void main(final String[] args) {
+    private static ApplicationController instance = new ApplicationController();
+    
+    private JFrame window;
+    
+    private ApplicationController() {
+        window = new JFrame("Brainstorm Helper");
+    }
+    
+    public static ApplicationController getInstance() {
+        return instance;
+    }
+    
+    public void begin() {
         buildWindow();
     }
     
     /**
      * Builds the physical window that the user can then interact with.
      */
-    private static void buildWindow() {
-        JFrame window = new JFrame("Brainstorm Helper");
-        window.setMinimumSize(new Dimension(500, 500));
+    private void buildWindow() {
+        
+        this.window.setMinimumSize(new Dimension(500, 500));
         
         MenuBarView menuBar = new MenuBarView();
-        window.setJMenuBar(menuBar);
+        this.window.setJMenuBar(menuBar);
         
         TreeView treeView = new TreeView();
         TreeController.getInstance().associateView(treeView);
         
-        window.add(treeView, BorderLayout.CENTER);
+        this.window.add(treeView, BorderLayout.CENTER);
         
         Node node = new Node();
         NodeView nodeView = new NodeView(node);
@@ -50,7 +55,7 @@ public abstract class ApplicationController {
         nodeController = new NodeController(node, nodeView);
         treeView.addToDocumentPanel(nodeController.getView());
         
-        window.pack();
-        window.setVisible(true);
+        this.window.pack();
+        this.window.setVisible(true);
     }
 }
