@@ -10,12 +10,12 @@ public class MenuBarController implements ActionListener {
     
     public MenuBarController() { }
     
-    public MenuBarController(MenuBarView view) {
+    public MenuBarController(final MenuBarView view) {
         associateMenuBarView(view);
     }
     
-    public void associateMenuBarView(MenuBarView view) {
-        if(view != null) {
+    public void associateMenuBarView(final MenuBarView view) {
+        if (view != null) {
             this.view = view;
             this.view.addMenuBarListener(this);
         }
@@ -26,8 +26,8 @@ public class MenuBarController implements ActionListener {
     }
     
     @Override
-    public void actionPerformed(ActionEvent e) {
-        switch(e.getActionCommand()) {
+    public void actionPerformed(final ActionEvent e) {
+        switch (e.getActionCommand()) {
         case "New":
             
             break;

@@ -55,13 +55,13 @@ public final class TreeController implements ComponentListener {
     }
     
     private void buildTreeInGUI() {
-        if (tree != null && view != null) {
-            // Remove everything from the tree 
+//        if (tree != null && view != null) {
+//            // Remove everything from the tree 
 //            view.removeAll();
-            
-            // Now, take the data from the tree and build it in the view
-            // TODO Build the tree
-        }
+//            
+//            // Now, take the data from the tree and build it in the view
+//            // TODO Build the tree
+//        }
     }
     
     public void createNodeAtRootOfTree(final String name,
