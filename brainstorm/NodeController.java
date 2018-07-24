@@ -4,8 +4,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -165,5 +163,4 @@ public class NodeController implements MouseListener,
         // TODO Auto-generated method stub
         
     }
-
 }

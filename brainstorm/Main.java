@@ -29,9 +29,10 @@ public abstract class Main {
         MenuBarView menuBar = new MenuBarView();
         window.setJMenuBar(menuBar);
         
-        TreeView tree = new TreeView();
+        TreeView treeView = new TreeView();
+        TreeController.getInstance().associateView(treeView);
         
-        window.add(tree, BorderLayout.CENTER);
+        window.add(treeView, BorderLayout.CENTER);
         
         Node node = new Node();
         NodeView nodeView = new NodeView(node);
@@ -39,7 +40,7 @@ public abstract class Main {
         nodeView.setBounds(bounds);
         node.setBounds(bounds);
         NodeController nodeController = new NodeController(node, nodeView);
-        tree.addToDocumentPanel(nodeController.getView());
+        treeView.addToDocumentPanel(nodeController.getView());
         
         node = new Node("Second One", "Other Cool Stuff");
         nodeView = new NodeView(node);
@@ -47,7 +48,7 @@ public abstract class Main {
         nodeView.setBounds(bounds);
         node.setBounds(bounds);
         nodeController = new NodeController(node, nodeView);
-        tree.addToDocumentPanel(nodeController.getView());
+        treeView.addToDocumentPanel(nodeController.getView());
         
         window.pack();
         window.setVisible(true);
