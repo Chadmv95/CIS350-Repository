@@ -6,7 +6,7 @@ import java.awt.Rectangle;
 
 import javax.swing.JFrame;
 
-public abstract class Main {
+public abstract class ApplicationController {
     
     /**
      * The starting point of the program. This will create all of the
