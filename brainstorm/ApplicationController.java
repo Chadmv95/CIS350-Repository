@@ -28,8 +28,7 @@ public class ApplicationController {
      * Builds the physical window that the user can then interact with.
      */
     private void buildWindow() {
-        
-        this.window.setMinimumSize(new Dimension(500, 500));
+        this.window.setMinimumSize(new Dimension(200, 200));
         
         MenuBarView menuBar = new MenuBarView();
         this.window.setJMenuBar(menuBar);
@@ -57,5 +56,9 @@ public class ApplicationController {
         
         this.window.pack();
         this.window.setVisible(true);
+    }
+    
+    public JFrame getWindow() {
+        return window;
     }
 }
