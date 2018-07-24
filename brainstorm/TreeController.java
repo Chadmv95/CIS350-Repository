@@ -57,7 +57,7 @@ public final class TreeController implements ComponentListener {
     private void buildTreeInGUI() {
         if (tree != null && view != null) {
             // Remove everything from the tree 
-            view.removeAll();
+//            view.removeAll();
             
             // Now, take the data from the tree and build it in the view
             // TODO Build the tree
@@ -66,8 +66,7 @@ public final class TreeController implements ComponentListener {
     
     public void createNodeAtRootOfTree(final String name,
                                        final String content) {
-        Node node = new Node(name, content);
-        addNodeAtRootOfTree(node);
+        addNode(tree.getRoot(), new Node(name, content));
     }
     
     public void addNodeAtRootOfTree(final Node node) {
@@ -77,11 +76,10 @@ public final class TreeController implements ComponentListener {
     public void addNode(final Node parent, final Node child) {
         tree.add(parent, child);
         
-        NodeView nv = new NodeView();
-        view.add(nv);
-        
-        NodeController nc = new NodeController(child, nv);
+        NodeController nc = new NodeController(child, new NodeView());
         nodeControllers.add(nc);
+        
+        view.addToDocumentPanel(nc.getView());
     }
     
     // ******************* ComponentListener

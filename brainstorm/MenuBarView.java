@@ -7,28 +7,46 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+/**
+ * This is the GUI element for the Menu Bar in the brainstorming application.
+ * 
+ * @author Brian Gilbert
+ *
+ */
 @SuppressWarnings("serial")
 public class MenuBarView extends JMenuBar {
     
+    /**
+     * The menu items within the menu bar.
+     */
+    private JMenuItem newFile, openFile, saveFile, printFile,
+              exit, createNode, editNode, deleteNode;
+    
+    /**
+     * A constructor for the menu bar. 
+     */
     public MenuBarView() {
         super();
         buildMenuBar();
     }
     
+    /**
+     * Builds the menu bar. Called from the constructor(s).
+     */
     private void buildMenuBar() {
         JMenu fileMenu = new JMenu("File");
         fileMenu.setMnemonic(KeyEvent.VK_F);
         this.add(fileMenu);
         
-        JMenuItem newFile = new JMenuItem("New");
+        newFile = new JMenuItem("New");
         newFile.setMnemonic(KeyEvent.VK_N);
-        JMenuItem openFile = new JMenuItem("Open");
+        openFile = new JMenuItem("Open");
         openFile.setMnemonic(KeyEvent.VK_O);
-        JMenuItem saveFile = new JMenuItem("Save");
+        saveFile = new JMenuItem("Save");
         saveFile.setMnemonic(KeyEvent.VK_S);
-        JMenuItem printFile = new JMenuItem("Print");
+        printFile = new JMenuItem("Print");
         printFile.setMnemonic(KeyEvent.VK_P);
-        JMenuItem exit = new JMenuItem("Exit");
+        exit = new JMenuItem("Exit");
         exit.setMnemonic(KeyEvent.VK_X);
         
         fileMenu.add(newFile);
@@ -41,11 +59,11 @@ public class MenuBarView extends JMenuBar {
         editMenu.setMnemonic(KeyEvent.VK_E);
         this.add(editMenu);
         
-        JMenuItem createNode = new JMenuItem("Create Node");
+        createNode = new JMenuItem("Create Node");
         createNode.setMnemonic(KeyEvent.VK_C);
-        JMenuItem editNode = new JMenuItem("Edit Node");
+        editNode = new JMenuItem("Edit Node");
         editNode.setMnemonic(KeyEvent.VK_E);
-        JMenuItem deleteNode = new JMenuItem("Delete Node");
+        deleteNode = new JMenuItem("Delete Node");
         deleteNode.setMnemonic(KeyEvent.VK_D);
         
         editMenu.add(createNode);
@@ -53,9 +71,21 @@ public class MenuBarView extends JMenuBar {
         editMenu.add(deleteNode);
     }
     
+    
+    /**
+     * Adds a single listener to all of the the menu items within the menu bar.
+     * 
+     * @param al The ActionListener that is to be added as a listener
+     * to all of the items within the menu.
+     */
     public void addMenuBarListener(final ActionListener al) {
-//        for (MenuElement e: this.getSubElements()) {
-//            // TODO Implement the means of adding a listener to the menu bar
-//        }
+        newFile.addActionListener(al);
+        openFile.addActionListener(al);
+        saveFile.addActionListener(al);
+        printFile.addActionListener(al);
+        exit.addActionListener(al);
+        createNode.addActionListener(al);
+        editNode.addActionListener(al);
+        deleteNode.addActionListener(al);
     }
 }

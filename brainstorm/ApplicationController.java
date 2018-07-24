@@ -24,6 +24,8 @@ public final class ApplicationController {
      */
     private JFrame window;
     
+    private MenuBarController mbc;
+    
     /**
      * Private constructor for the singleton class.
      */
@@ -54,30 +56,17 @@ public final class ApplicationController {
     private void buildWindow() {
         this.window.setMinimumSize(new Dimension(200, 200));
         
-        MenuBarView menuBar = new MenuBarView();
-        this.window.setJMenuBar(menuBar);
+        mbc = new MenuBarController(new MenuBarView());
+        this.window.setJMenuBar(mbc.getView());
         
         TreeView treeView = new TreeView();
+        BPlusTree tree = new BPlusTree();
+        TreeController.getInstance().associateTree(tree);
         TreeController.getInstance().associateView(treeView);
         
         this.window.add(treeView, BorderLayout.CENTER);
         
-        Node node = new Node();
-        NodeView nodeView = new NodeView(node);
-        Rectangle bounds = new Rectangle(20, 20, 200, 100);
-        nodeView.setBounds(bounds);
-        node.setBounds(bounds);
-        NodeController nodeController = new NodeController(node, nodeView);
-        treeView.addToDocumentPanel(nodeController.getView());
-        
-        node = new Node("Second One", "Other Cool Stuff");
-        nodeView = new NodeView(node);
-        bounds = new Rectangle(300, 50, 150, 150);
-        nodeView.setBounds(bounds);
-        node.setBounds(bounds);
-        nodeController = new NodeController(node, nodeView);
-        treeView.addToDocumentPanel(nodeController.getView());
-        
+        this.window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.window.pack();
         this.window.setVisible(true);
     }

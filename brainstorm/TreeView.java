@@ -39,5 +39,7 @@ public class TreeView extends JPanel {
     
     public void addToDocumentPanel(final Component comp) {
         documentPanel.add(comp);
+        documentPanel.revalidate();
+        documentPanel.repaint(comp.getBounds());
     }
 }

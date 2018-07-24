@@ -79,15 +79,17 @@ public class NodeController implements MouseListener,
             if (this.node != null) {
                 this.view.setName(this.node.getName());
                 this.view.setContent(this.node.getContent());
+                this.view.setBounds(this.node.getBounds());
             }
         }
     }
     
     public void associateNode(final Node node) {
         this.node = node;
-        if (this.node != null && view != null) {
-            view.setName(node.getName());
-            view.setContent(node.getContent());
+        if (this.node != null && this.view != null) {
+            this.view.setName(this.node.getName());
+            this.view.setContent(this.node.getContent());
+            this.view.setBounds(this.node.getBounds());
         }
     }
     
