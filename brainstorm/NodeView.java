@@ -12,10 +12,13 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.Document;
 
 /**
+ * A view class for the Node class. This class is used with the NodeController
+ * class to dynamically control a brainstorming tree.
  * 
- * @author brian
+ * @author Brian Gilbert
  *
  */
 @SuppressWarnings("serial")
@@ -157,5 +160,29 @@ public class NodeView extends JPanel {
      */
     public void setContentFieldListener(final DocumentListener listener) {
         this.contentField.getDocument().addDocumentListener(listener);
+    }
+    
+    /**
+     * Checks whether or not the argument is the document contained inside the
+     * name/title field of this element.
+     * 
+     * @param doc The Document to be compared.
+     * @return <code>true</code> if the documents are equal, <code>false</code>
+     * otherwise.
+     */
+    public boolean isNameFieldDocument(final Document doc) {
+        return nameField.getDocument().equals(doc);
+    }
+    
+    /**
+     * Checks whether or not the argument is the document contained inside the
+     * content/data field of this element.
+     * 
+     * @param doc The Document to be compared.
+     * @return <code>true</code> if the documents are equal, <code>false</code>
+     * otherwise.
+     */
+    public boolean isContentFieldDocument(final Document doc) {
+        return contentField.getDocument().equals(doc);
     }
 }

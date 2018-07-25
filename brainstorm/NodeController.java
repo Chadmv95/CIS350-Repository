@@ -6,6 +6,8 @@ import java.awt.event.MouseMotionListener;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
 
 /**
  * A controller class for the Node and NodeView classes. Uses the
@@ -156,13 +158,30 @@ public class NodeController implements MouseListener,
 
     @Override
     public void insertUpdate(final DocumentEvent e) {
-        // TODO Auto-generated method stub
-        
+        updateNode(e.getDocument());
     }
 
     @Override
     public void removeUpdate(final DocumentEvent e) {
-        // TODO Auto-generated method stub
-        
+        updateNode(e.getDocument());
+    }
+    
+    /**
+     * Checks a Document object to see which parts of the Node object
+     * should be updated, then updates those fields in the Node object.
+     * 
+     * @param doc The document containing the updates to the Node fields.
+     */
+    private void updateNode(final Document doc) {
+        try {
+            if (view.isNameFieldDocument(doc)) {
+                node.setName(doc.getText(0, doc.getLength()));
+            }
+            if (view.isContentFieldDocument(doc)) {
+                node.setContent(doc.getText(0, doc.getLength()));
+            }
+        } catch (BadLocationException e) {
+            e.printStackTrace();
+        }
     }
 }
