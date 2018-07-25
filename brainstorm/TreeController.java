@@ -64,6 +64,14 @@ public final class TreeController implements ComponentListener {
 //        }
     }
     
+    public BPlusTree getTree() {
+        return tree;
+    }
+    
+    public TreeView getView() {
+        return view;
+    }
+    
     public void createNodeAtRootOfTree(final String name,
                                        final String content) {
         addNode(tree.getRoot(), new Node(name, content));
