@@ -3,6 +3,7 @@ package brainstorm;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -23,12 +24,12 @@ public class TreeView extends JPanel {
      * Constructor that creates a JPanel for displaying the tree.
      */
     public TreeView() {
-        super();
+        super(new BorderLayout());
         
         this.documentPanel = new DocumentView(new Dimension(1000, 700));
         this.scrollPane = new JScrollPane(documentPanel);
         this.scrollPane.setPreferredSize(new Dimension(500, 500));
-        this.add(this.scrollPane);
+        this.add(this.scrollPane, BorderLayout.CENTER);
         
         this.documentPanel.setLayout(null);
         this.documentPanel.setBackground(Color.WHITE);
