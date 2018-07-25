@@ -40,7 +40,7 @@ public class MenuBarController implements ActionListener {
         case "Print":
             TreeController.getInstance().getTree().printTree();
             break;
-        case "Exit":
+        case "Quit":
             ApplicationController.getInstance().getWindow().dispose();
             break;
         case "Create Node":
