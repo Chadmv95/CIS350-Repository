@@ -1,11 +1,9 @@
 package brainstorm;
 
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class TreeController implements ComponentListener {
+public final class TreeController {
 
     /**
      * This is the global instance of the singleton tree controller.
@@ -89,22 +87,4 @@ public final class TreeController implements ComponentListener {
         
         view.addToDocumentFront(nc.getView());
     }
-    
-    // ******************* ComponentListener **************************
-    @Override
-    public void componentHidden(final ComponentEvent e) { /*Do Nothing*/ }
-
-    @Override
-    public void componentMoved(final ComponentEvent e) { /*Do Nothing*/ }
-
-    @Override
-    public void componentResized(final ComponentEvent e) {
-//        if (e.getComponent() == view.getTopLevelAncestor()) {
-//            // TODO Either implement the resizing, or change layout
-//            // so that it happens automatically
-//        }
-    }
-
-    @Override
-    public void componentShown(final ComponentEvent e) { /*Do Nothing*/ }
 }
