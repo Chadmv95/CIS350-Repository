@@ -304,8 +304,11 @@ public class BPlusTree {
     private void printBranch(final Node parent, final String treeStructure,
                              final String next, final PrintStream stream) {
         // Print the parent of this branch
-        stream.println(treeStructure + "|--> " + parent.toString());
-        
+        if (stream != null) {
+            stream.println(treeStructure + "|--> " + parent.toString());
+        } else {
+            System.out.println(treeStructure + "|--> " + parent.toString());
+        }
         
         // Then print all of its babies at one more depth than this
         int i;
