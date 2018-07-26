@@ -2,8 +2,11 @@ package brainstorm;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.io.File;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  * A Singleton class that performs tasks of controlling the application.
@@ -29,10 +32,23 @@ public final class ApplicationController {
     private MenuBarController mbc;
     
     /**
+     * This creates the dialog boxes for opening and saving files.
+     */
+    private JFileChooser fileChooser;
+
+    /**
+     * The current file that the application is working with.
+     */
+    private File currentFile;
+    
+    /**
      * Private constructor for the singleton class.
      */
     private ApplicationController() {
         window = new JFrame("Brainstorm Helper");
+        fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File(
+                System.getProperty("user.home")));
     }
     
     /**
@@ -80,5 +96,70 @@ public final class ApplicationController {
      */
     public JFrame getWindow() {
         return window;
+    }
+    
+    /**
+     * This method discards the current workspace and creates a new file.
+     */
+    public void newFile() {
+        int result = JOptionPane.showConfirmDialog(window,
+                "Are you sure you want to create a new file?\n"
+                + "All changes to the current file will be lost.");
+        
+        if (result == JOptionPane.YES_OPTION) {
+            currentFile = null;
+            TreeController.getInstance().associateTree(new BPlusTree());
+        }
+    }
+    
+    /**
+     * This method discards the current workspace and opens an existing file.
+     */
+    public void openFile() {
+        int result = fileChooser.showOpenDialog(ApplicationController
+                .getInstance().getWindow());
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            if (selectedFile != null) {
+                currentFile = selectedFile;
+                // TODO Implement functionality to turn a file into a BPlusTree
+            }
+        }
+    }
+    
+    /**
+     * This method saves the current workspace under the current file name.
+     * If there is no current file name, saveFileAs is called to save the
+     * workspace under a new file name.
+     */
+    public void saveFile() {
+        if (currentFile != null) {
+            saveWorkspace();
+        } else {
+            saveFileAs();
+        }
+    }
+    
+    /**
+     * This method saves the current workspace under a new file name.
+     */
+    public void saveFileAs() {
+        int result = fileChooser.showSaveDialog(ApplicationController
+                                            .getInstance().getWindow());
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            if (selectedFile != null) {
+                currentFile = selectedFile;
+                saveWorkspace();
+            }
+        }
+    }
+    
+    /**
+     * Private helper function that saves the workspace under the file contained
+     * in currentFile.
+     */
+    private void saveWorkspace() {
+        // TODO Add functionality to turn the current BPlusTree into a file.
     }
 }

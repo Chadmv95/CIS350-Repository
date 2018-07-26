@@ -5,8 +5,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
+ * The controller class for the application's menu bar. This
+ * listens for events from the MenuBarView class, and then performs
+ * the requested actions.
  * 
- * @author brian
+ * @author Brian Gilbert
  *
  */
 public class MenuBarController implements ActionListener {
@@ -58,13 +61,16 @@ public class MenuBarController implements ActionListener {
     public void actionPerformed(final ActionEvent e) {
         switch (e.getActionCommand()) {
         case "New":
-            
+            ApplicationController.getInstance().newFile();
             break;
-        case "Open":
-            
+        case "Open": 
+            ApplicationController.getInstance().openFile();
             break;
-        case "Save":
-            
+        case "Save": 
+            ApplicationController.getInstance().saveFile();
+            break;
+        case "Save As...":
+            ApplicationController.getInstance().saveFileAs();
             break;
         case "Print":
             TreeController.getInstance().getTree().printTree();
@@ -78,13 +84,13 @@ public class MenuBarController implements ActionListener {
             TreeController.getInstance().addNodeAtRootOfTree(n);
             break;
         case "Edit Node":
-            
+            // TODO Figure out how to get the selected node so it can be edited
             break;
         case "Delete Node":
-            
+            // TODO Figure out how to get the selected node so it can be deleted
             break;
         default:
-            
+            // Do nothing
             break;
         }
     }

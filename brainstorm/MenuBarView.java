@@ -21,7 +21,7 @@ public class MenuBarView extends JMenuBar {
     /**
      * The menu items within the menu bar.
      */
-    private JMenuItem newFile, openFile, saveFile, printFile,
+    private JMenuItem newFile, openFile, saveFile, saveFileAs, printFile,
               quit, createNode, editNode, deleteNode;
     
     /**
@@ -52,6 +52,9 @@ public class MenuBarView extends JMenuBar {
         saveFile.setMnemonic(KeyEvent.VK_S);
         saveFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
                                                     InputEvent.CTRL_DOWN_MASK));
+        saveFileAs = new JMenuItem("Save As...");
+        saveFileAs.setMnemonic(KeyEvent.VK_A);
+        
         printFile = new JMenuItem("Print");
         printFile.setMnemonic(KeyEvent.VK_P);
         printFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P,
@@ -64,6 +67,7 @@ public class MenuBarView extends JMenuBar {
         fileMenu.add(newFile);
         fileMenu.add(openFile);
         fileMenu.add(saveFile);
+        fileMenu.add(saveFileAs);
         fileMenu.add(printFile);
         fileMenu.add(quit);
         
