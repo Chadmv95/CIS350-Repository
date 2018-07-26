@@ -169,6 +169,38 @@ public class NodeController implements MouseListener,
         return node;
     }
     
+    /**
+     * Returns whether or not this controller is associated with the passed
+     * NodeView view object.
+     * 
+     * @param view The NodeView under test.
+     * @return Returns true if this controller is associated with the
+     * parameter view, false otherwise
+     */
+    public boolean isAssociatedWith(final NodeView view) {
+        if (this.view == null) {
+            return false;
+        }
+        
+        return this.view.equals(view);
+    }
+    
+    /**
+     * Returns whether or not this controller is associated with the passed
+     * Node model object.
+     * 
+     * @param node The Node under test.
+     * @return Returns true if this controller is associated with the
+     * parameter node, false otherwise.
+     */
+    public boolean isAssociatedWith(final Node node) {
+        if (this.node == null) {
+            return false;
+        }
+        
+        return this.node.equals(node);
+    }
+    
     
     // ******************* MouseListener Methods ***************************
     @Override

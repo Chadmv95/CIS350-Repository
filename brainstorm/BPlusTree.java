@@ -19,6 +19,13 @@ public class BPlusTree {
      * Holds a reference to the root node of the tree.
      */
     private Node root;
+    
+    /**
+     * A private list of all nodes in this tree. This allows quick lookup
+     * of information within the tree without needing to traverse the tree
+     * recursively.
+     */
+    private List<Node> childrenOfRoot;
 
     /**
      * A constructor that allows the user to build a tree by providing
@@ -29,6 +36,7 @@ public class BPlusTree {
      */
     public BPlusTree(final String name, final String data) {
         root = new Node(name, data);
+        childrenOfRoot = new ArrayList<Node>();
     }
     
     /**
@@ -36,7 +44,8 @@ public class BPlusTree {
      * as determined by the Node class.
      */
     public BPlusTree() {
-        root = new Node();
+        root = new Node("Root", "Brainstorming Tree");
+        childrenOfRoot = new ArrayList<Node>();
     }
     
     /**
@@ -47,6 +56,7 @@ public class BPlusTree {
      */
     public BPlusTree(final Node rootNode) {
         root = rootNode;
+        childrenOfRoot = new ArrayList<Node>();
     }
     
     /**
@@ -60,8 +70,9 @@ public class BPlusTree {
     
     /**
      * Adds node to the first available slot among parent's children.
-     * 
+     * <br>
      * returns true upon successful add
+     * <br>
      * returns false upon unsuccessful add & child is not added
      * 
      * @param parent The parent Node which will receive the child Node.
@@ -74,35 +85,66 @@ public class BPlusTree {
             return false;
         }
         
-        return parent.addChild(child);
+        if (parent.equals(root) && parent.addChild(child)) {
+            // addChild was successful. Add the child to our private list of
+            // Nodes for quick reference in the future.
+            childrenOfRoot.add(child);
+            return true;
+        }
+        
+        if (childrenOfRoot.contains(parent) && parent.addChild(child)) {
+            // addChild was successful. Add the child to our private list of
+            // Nodes for quick reference in the future.
+            childrenOfRoot.add(child);
+            return true;
+        }
+        
+        return false;
     }
     
     /**
-     * Adds node as a child of the root node.
-     * 
+     * Adds node as a child of the root node. This function calls the
+     * add(parent, child) method to perform the addition.
+     * <br>
      * returns true upon successful add
+     * <br>
      * returns false upon unsuccessful add & child is not added
      * 
      * @param child The Node to add to the tree
      * @return Whether or not the add was successful.
      */
     public boolean add(final Node child) {
-        if (child == null) { 
-            return false;
-        }
-        
-        return root.addChild(child);
+        return this.add(root, child);
     }
     
     /**
-     * Returns all of the Nodes in the tree EXCEPT the root node.
-     * 
+     * Returns a List all of the Nodes in the tree EXCEPT the root node. This
+     * list is in the order that the nodes were added to the tree. Such a list
+     * should have all of its nodes created before creating parent-child
+     * relationships between nodes.
+     * <br>
      * Returns all of the children, grandchildren, great grandchildren, etc
      * of the requested Node.
      * 
      * @return A List of all descendants of the argument
      */
     public List<Node> getAllNodes() {
+        return new ArrayList<Node>(childrenOfRoot);
+    }
+
+    /**
+     * Returns a List all of the Nodes in the tree EXCEPT the root node. These
+     * nodes are ordered by listing all of a node's children before that node's
+     * siblings. This means that no Node is listed before its parent. Such a
+     * list will be safe for reconstruction of the tree as the tree is being
+     * read from the list.
+     * <br>
+     * Returns all of the children, grandchildren, great grandchildren, etc
+     * of the requested Node.
+     * 
+     * @return A List of all descendants of the argument
+     */
+    public List<Node> getAllNodesInOrder() {
         return getAllDescendants(root);
     }
     
@@ -124,11 +166,31 @@ public class BPlusTree {
         }
         return retVal;
     }
+
+    /**
+     * 
+     * 
+     * @param n The Node to be searched for in the tree.
+     * @return true if the node is in the tree, false otherwise.
+     */
+    public boolean contains(final Node n) {
+        if (root == null) {
+            // No root means tree is empty.
+            return false;
+        } else if (root.equals(n)) {
+            return true;
+        }
+        
+        return childrenOfRoot.contains(n);
+    }
     
     /**
-     * Delete child and its descendants from the tree.
+     * <p>Delete child and its descendants from the tree.</p>
+     * <p><b>WARNING!</b> This method does not delete associated controller
+     * and view classes. Should only be used in a system that contains only
+     * model classes.<p>
      * 
-     * returns true upon deletion
+     * returns true upon deletion<br>
      * returns false if parent is null
      * 
      * @param tbd The Node to be deleted.
@@ -173,10 +235,10 @@ public class BPlusTree {
      * This helper function searches the branch of the tree starting from
      * the supplied Node it to find the matching node.
      * 
-     * If there is no matching node, null is returned
+     * If there is no matching node, null is returned.
      * 
      * If there are two matching nodes, the first found node
-     * is the node which is returned
+     * is the node which is returned.
      * 
      * @param ancestor The root of the branch to be searched.
      * @param title The title of the node being searched for.
@@ -206,10 +268,10 @@ public class BPlusTree {
     }
     
     /**
-     * This function prints an ASCII representation of the
-     * tree to StdOut.
+     * <p>This function prints an ASCII representation of the
+     * tree to StdOut.</p>
      * 
-     * returns true upon successful print
+     * returns true upon successful print<br>
      * returns false if tree is empty
      * 
      * @return Whether or not the print was successful
