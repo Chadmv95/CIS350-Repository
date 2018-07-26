@@ -4,16 +4,39 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * 
+ * @author brian
+ *
+ */
 public class MenuBarController implements ActionListener {
 
+    /**
+     * The viewing class instance for the menu bar.
+     */
     private MenuBarView view;
     
+    /**
+     * Default constructor. Will need to have a MenuBarView associated
+     * with the controller after creation.
+     */
     public MenuBarController() { }
     
+    /**
+     * Preferred constructor. Immediately associates the provided MenuBarView
+     * with this controller.
+     * 
+     * @param view The MenuBarView this controller is paired with.
+     */
     public MenuBarController(final MenuBarView view) {
         associateMenuBarView(view);
     }
     
+    /**
+     * Links this controller to a MenuBarView object.
+     * 
+     * @param view The MenuBarView that this class will control.
+     */
     public void associateMenuBarView(final MenuBarView view) {
         if (view != null) {
             this.view = view;
@@ -21,6 +44,12 @@ public class MenuBarController implements ActionListener {
         }
     }
     
+    /**
+     * Returns the MenuBarView that was last associated with this
+     * controller.
+     * 
+     * @return The associated MenuBarView object.
+     */
     public MenuBarView getView() {
         return view;
     }

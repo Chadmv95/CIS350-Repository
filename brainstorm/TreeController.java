@@ -87,10 +87,10 @@ public final class TreeController implements ComponentListener {
         NodeController nc = new NodeController(child, new NodeView());
         nodeControllers.add(nc);
         
-        view.addToDocumentPanel(nc.getView());
+        view.addToDocumentFront(nc.getView());
     }
     
-    // ******************* ComponentListener
+    // ******************* ComponentListener **************************
     @Override
     public void componentHidden(final ComponentEvent e) { /*Do Nothing*/ }
 

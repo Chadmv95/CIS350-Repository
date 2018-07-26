@@ -14,33 +14,95 @@ import java.awt.Dimension;
  * @author Brian Gilbert
  *
  */
-@SuppressWarnings("serial")
-public class TreeView extends JPanel {
+public class TreeView {
 
+    /**
+     * The outermost container component.
+     */
+    private JPanel containerPanel;
+
+    /**
+     * The scrolling container component.
+     */
     private JScrollPane scrollPane;
+
+    /**
+     * The document panel component where the NodeViews are placed.
+     */
     private DocumentView documentPanel;
 
     /**
      * Constructor that creates a JPanel for displaying the tree.
      */
     public TreeView() {
-        super(new BorderLayout());
+        containerPanel = new JPanel(new BorderLayout());
         
         this.documentPanel = new DocumentView(new Dimension(1000, 700));
         this.scrollPane = new JScrollPane(documentPanel);
         this.scrollPane.setPreferredSize(new Dimension(500, 500));
-        this.add(this.scrollPane, BorderLayout.CENTER);
+        containerPanel.add(this.scrollPane, BorderLayout.CENTER);
         
         this.documentPanel.setLayout(null);
         this.documentPanel.setBackground(Color.WHITE);
         this.documentPanel.setVisible(true);
         
-        this.setVisible(true);
+        containerPanel.setVisible(true);
     }
     
-    public void addToDocumentPanel(final Component comp) {
+    /**
+     * Returns the component that parent containers should hold. This is
+     * the JPanel that has the JScrollPane and the document panel inside of
+     * it.
+     * 
+     * @return JPanel that holds the viewing object for the tree/document.
+     */
+    public Component getComponent() {
+        return containerPanel;
+    }
+    
+    /**
+     * Adds a component to the document panel at index zero. It will
+     * appear on top of all other components. Use this to add new
+     * NodeView objects to the TreeView.
+     * 
+     * @param comp Component to add.
+     */
+    public void addToDocumentFront(final Component comp) {
         documentPanel.add(comp, 0);
         documentPanel.revalidate();
         documentPanel.repaint(comp.getBounds());
+    }
+    
+    /**
+     * Adds a component to the document panel at the end of the list.
+     * The new component will appear beneath all other components. Use
+     * this to add lines which connect the NodeViews.
+     * @param comp Component to add.
+     */
+    public void addToDocumentRear(final Component comp) {
+        documentPanel.add(comp);
+        documentPanel.revalidate();
+        documentPanel.repaint(comp.getBounds());
+    }
+    
+    /**
+     * Returns the current dimensions of the "document" where the NodeViews
+     * are drawn.
+     * 
+     * @return A Dimension containing the document dimensions.
+     */
+    public Dimension getDocumentDimensions() {
+        return new Dimension(this.documentPanel.getPreferredSize());
+    }
+    
+    /**
+     * Changes the dimensions of the "document" to match the passed values.
+     * 
+     * @param d The new dimensions for the document.
+     */
+    public void changeDocumentDimensions(final Dimension d) {
+        if (d != null) {
+            this.documentPanel.setPreferredSize(d);
+        }
     }
 }

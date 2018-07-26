@@ -23,6 +23,9 @@ public final class ApplicationController {
      */
     private JFrame window;
     
+    /**
+     * The controller class for the menu bar.
+     */
     private MenuBarController mbc;
     
     /**
@@ -63,7 +66,7 @@ public final class ApplicationController {
         TreeController.getInstance().associateTree(tree);
         TreeController.getInstance().associateView(treeView);
         
-        this.window.add(treeView, BorderLayout.CENTER);
+        this.window.add(treeView.getComponent(), BorderLayout.CENTER);
         
         this.window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.window.pack();
