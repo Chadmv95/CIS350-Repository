@@ -168,14 +168,16 @@ public class BPlusTree {
     }
 
     /**
-     * 
+     * Returns true if the node is anywhere to be found in this tree. This
+     * routine is frequently used to make sure a parent node is part of this
+     * tree before adding a child node.
      * 
      * @param n The Node to be searched for in the tree.
      * @return true if the node is in the tree, false otherwise.
      */
     public boolean contains(final Node n) {
         if (root == null) {
-            // No root means tree is empty.
+            // No root means tree is empty, so it can't possibly contain n
             return false;
         } else if (root.equals(n)) {
             return true;
@@ -190,7 +192,8 @@ public class BPlusTree {
      * and view classes. Should only be used in a system that contains only
      * model classes.<p>
      * 
-     * returns true upon deletion<br>
+     * returns true upon deletion
+     * <br>
      * returns false if parent is null
      * 
      * @param tbd The Node to be deleted.
@@ -232,11 +235,11 @@ public class BPlusTree {
     }
     
     /**
-     * This helper function searches the branch of the tree starting from
-     * the supplied Node it to find the matching node.
-     * 
+     * This helper function searches the branch of the tree, starting from
+     * the passed Node <i>it</i>, to find the matching node.
+     * <br>
      * If there is no matching node, null is returned.
-     * 
+     * <br>
      * If there are two matching nodes, the first found node
      * is the node which is returned.
      * 
@@ -271,7 +274,8 @@ public class BPlusTree {
      * <p>This function prints an ASCII representation of the
      * tree to StdOut.</p>
      * 
-     * returns true upon successful print<br>
+     * returns true upon successful print
+     * <br>
      * returns false if tree is empty
      * 
      * @return Whether or not the print was successful
