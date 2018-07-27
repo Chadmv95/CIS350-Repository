@@ -8,6 +8,13 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.io.IOException;
+ 
+//import org.json.simple.JSONArray;
+//import org.json.simple.JSONObject;
+
 /**
  * A Singleton class that performs tasks of controlling the application.
  * 
@@ -134,7 +141,7 @@ public final class ApplicationController {
      */
     public void saveFile() {
         if (currentFile != null) {
-            saveWorkspace();
+            saveWorkspace(currentFile);
         } else {
             saveFileAs();
         }
@@ -150,7 +157,7 @@ public final class ApplicationController {
             File selectedFile = fileChooser.getSelectedFile();
             if (selectedFile != null) {
                 currentFile = selectedFile;
-                saveWorkspace();
+                saveWorkspace(currentFile);
             }
         }
     }
@@ -159,7 +166,31 @@ public final class ApplicationController {
      * Private helper function that saves the workspace under the file contained
      * in currentFile.
      */
-    private void saveWorkspace() {
+    private void saveWorkspace(File file_path) {
         // TODO Add functionality to turn the current BPlusTree into a file.
+    	System.out.println("saveWorkspace Called");
+    	System.out.println(file_path);
+    	BPlusTree temp = TreeController.getInstance().getTree();
+    	
+    	
+    	try {
+    		FileWriter file = new FileWriter(file_path);
+    		
+    		
+			writeToJSON(file, temp);
+			
+			file.flush();
+	    	file.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			System.out.println("Save Successful");
+		}
+    }
+    
+    private void writeToJSON(FileWriter file, BPlusTree tree) throws IOException {
+    	
+    	file.write("{\"" + tree.getRoot().getName()+ "\"}");
+    	
     }
 }
