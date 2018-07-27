@@ -148,8 +148,17 @@ public class NodeView extends JPanel {
      * @param listener The listener that will be associated with this
      * NodeView's name/title field.
      */
-    public void setNameFieldListener(final DocumentListener listener) {
+    public void addNameFieldListener(final DocumentListener listener) {
         this.nameField.getDocument().addDocumentListener(listener);
+    }
+    
+    /**
+     * Removes a listener from the text in the name/title field.
+     * 
+     * @param listener The listener that will be removed.
+     */
+    public void removeNameFieldListener(final DocumentListener listener) {
+        this.nameField.getDocument().removeDocumentListener(listener);
     }
     
     /**
@@ -158,8 +167,17 @@ public class NodeView extends JPanel {
      * @param listener The listener that will be associated with this
      * NodeView's content/data field.
      */
-    public void setContentFieldListener(final DocumentListener listener) {
+    public void addContentFieldListener(final DocumentListener listener) {
         this.contentField.getDocument().addDocumentListener(listener);
+    }
+    
+    /**
+     * Removes a listener from the text in the content/data field.
+     * 
+     * @param listener The listener that will be removed.
+     */
+    public void removeContentFieldListener(final DocumentListener listener) {
+        this.contentField.getDocument().removeDocumentListener(listener);
     }
     
     /**

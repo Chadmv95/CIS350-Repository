@@ -142,7 +142,7 @@ public class Node {
      * @return Whether or not the add was successful
      */
     public boolean addChild(final Node child) {
-        if (child == null) {
+        if (child == null || this.equals(child)) {
             return false;
         }
         
@@ -181,7 +181,7 @@ public class Node {
      * @return A List containing the children of this node.
      */
     public List<Node> getChildren() {
-        return this.children;
+        return new ArrayList<Node>(this.children);
     }
 
     /**
@@ -192,7 +192,7 @@ public class Node {
      * this function returns null instead
      */
     public Node getChild(final int index) {
-        if (index >= children.size()) {
+        if (index < 0 || index >= children.size()) {
             return null;
         }
         
@@ -221,6 +221,9 @@ public class Node {
      */
     public void setParent(final Node parent) {
     	this.parent = parent;
+    	if (this.parent != null && !this.parent.getChildren().contains(this)) {
+    	    this.parent.addChild(this);
+    	}
     }
 
 }

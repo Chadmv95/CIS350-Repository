@@ -30,6 +30,17 @@ public class NodeController implements MouseListener,
     private NodeView view;
     
     /**
+     * A link to the controller for the line that connects this node
+     * to its parent.
+     */
+    private LineController parentLine;
+    
+    /**
+     * A link to the controller of this controller's node's parent.
+     */
+    private NodeController parentController;
+    
+    /**
      * Variables used during dragging operation.
      */
     private int mouseStartingX = 0, mouseStartingY = 0,
@@ -41,7 +52,9 @@ public class NodeController implements MouseListener,
      * You will want to create a new view and a new node
      * 
      */
-    public NodeController() { }
+    public NodeController() {
+        parentLine = new LineController(new LineView());
+    }
     
     /**
      * Creates a NodeController that is associated with the supplied
@@ -51,6 +64,7 @@ public class NodeController implements MouseListener,
      * controller.
      */
     public NodeController(final Node node) {
+        parentLine = new LineController(new LineView());
         this.node = node;
     }
     
@@ -62,6 +76,7 @@ public class NodeController implements MouseListener,
      * this controller.
      */
     public NodeController(final NodeView view) {
+        parentLine = new LineController(new LineView());
         associateView(view);
     }
     
@@ -73,6 +88,7 @@ public class NodeController implements MouseListener,
      * @param view The NodeView view object.
      */
     public NodeController(final Node node, final NodeView view) {
+        parentLine = new LineController(new LineView());
         this.node = node;
         associateView(view);
     }
@@ -120,12 +136,22 @@ public class NodeController implements MouseListener,
      * @param view The NodeView to be associated.
      */
     public void associateView(final NodeView view) {
+        if (this.view != null) {
+            // We need to remove listeners so we don't get events
+            // from two different views.
+            this.view.removeMouseListener(this);
+            this.view.removeMouseMotionListener(this);
+            this.view.removeNameFieldListener(this);
+            this.view.removeContentFieldListener(this);
+            this.parentLine.setChildNodeView(null);
+        }
         this.view = view;
         if (this.view != null) {
             this.view.addMouseListener(this);
             this.view.addMouseMotionListener(this);
-            this.view.setNameFieldListener(this);
-            this.view.setContentFieldListener(this);
+            this.view.addNameFieldListener(this);
+            this.view.addContentFieldListener(this);
+            this.parentLine.setChildNodeView(this.view);
             if (this.node != null) {
                 this.view.setName(this.node.getName());
                 this.view.setContent(this.node.getContent());
@@ -201,11 +227,22 @@ public class NodeController implements MouseListener,
         return this.node.equals(node);
     }
     
+    /**
+     * Sets all necessary relationship values between this node and its parent.
+     * @param parent The controller of the parent node.
+     */
+    public void setParent(final NodeController parent) {
+        parentController = parent;
+        if (parentController != null) {
+            this.node.setParent(parentController.getNode());
+            parentLine.setParentNodeView(parentController.getView());
+        }
+    }
     
     // ******************* MouseListener Methods ***************************
     @Override
     public void mouseClicked(final MouseEvent e) {
-//        if (arg0.isPopupTrigger()) {
+//        if (e.isPopupTrigger()) {
 //            // TODO Implement pop-up menu for editing node
 //        }
     }
