@@ -4,6 +4,14 @@ import java.awt.Graphics;
 
 import javax.swing.JLabel;
 
+/**
+ * This class draws the lines which connect nodes in the brainstorming app
+ * GUI. It requires a LineController which dynamically changes the LineView
+ * associated with it.
+ * 
+ * @author Brian Gilbert
+ *
+ */
 @SuppressWarnings("serial")
 public class LineView extends JLabel {
     
