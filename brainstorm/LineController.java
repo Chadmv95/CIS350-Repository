@@ -19,22 +19,26 @@ public class LineController {
     
     private NodeViewWatcher parentWatcher, childWatcher;
     
-    public LineController(LineView lv) {
+    public LineController(final LineView lv) {
         this.parentWatcher = new NodeViewWatcher(NodeViewWatcher.PARENT);
         this.childWatcher = new NodeViewWatcher(NodeViewWatcher.CHILD);
-        this.associateLineView(lv);
-    }
-    
-    public void associateLineView(LineView lv) {
         view = lv;
     }
     
-    public void setParentNodeView(NodeView nvParent) {
-        parentWatcher.watch(nvParent);
+    public LineView getView() {
+        return view;
     }
     
-    public void setChildNodeView(NodeView nvChild) {
+    public void setParentNodeView(final NodeView nvParent) {
+        parentWatcher.watch(nvParent);
+        view.setPointA((int) nvParent.getBounds().getCenterX(),
+                       (int) nvParent.getBounds().getCenterY());
+    }
+    
+    public void setChildNodeView(final NodeView nvChild) {
         childWatcher.watch(nvChild);
+        view.setPointB((int) nvChild.getBounds().getCenterX(),
+                       (int) nvChild.getBounds().getCenterY());
     }
     
     private class NodeViewWatcher implements MouseMotionListener {
@@ -46,7 +50,7 @@ public class LineController {
         
         private NodeView watchee;
         
-        public NodeViewWatcher(final boolean isParent) {
+        NodeViewWatcher(final boolean isParent) {
             this.isParent = isParent;
         }
         
