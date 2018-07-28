@@ -14,6 +14,7 @@ import javax.swing.text.Document;
  * Model-View-Presenter framework.
  * 
  * @author Brian Gilbert
+ * @author Chad Vredeveld
  *
  */
 public class NodeController implements MouseListener,
@@ -148,6 +149,7 @@ public class NodeController implements MouseListener,
         this.view = view;
         if (this.view != null) {
             this.view.addMouseListener(this);
+            this.view.addMouseListener(new PopClickListener());
             this.view.addMouseMotionListener(this);
             this.view.addNameFieldListener(this);
             this.view.addContentFieldListener(this);
@@ -268,6 +270,7 @@ public class NodeController implements MouseListener,
 //        if (e.isPopupTrigger()) {
 //            // TODO Implement pop-up menu for editing node
 //        }
+    	
     }
 
     @Override

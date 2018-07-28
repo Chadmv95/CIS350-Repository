@@ -172,7 +172,8 @@ public final class TreeController {
             moveNode(parent, child);
         }
         
-        if (tree != null && parent != null && child != null && parent != child) {
+        if(tree != null && parent != null && 
+        		child != null && parent != child){
             if (!tree.contains(parent.getNode())) {
                 addNodeAtRootOfTree(parent);
             }
