@@ -90,19 +90,34 @@ public class LineView extends JLabel {
         this.by = (int) comp2.getBounds().getCenterY();
     }
     
-    
+    /**
+     * Changes the values of ax and ay to a new location.
+     * 
+     * @param x The new x value for point A
+     * @param y the new y value for point A
+     */
     public void setPointA(final int x, final int y) {
         this.ax = x;
         this.ay = y;
         this.updateBounds();
     }
     
+    /**
+     * Changes the values of bx and by to a new location.
+     * 
+     * @param x The new x value for point B
+     * @param y the new y value for point B
+     */
     public void setPointB(final int x, final int y) {
         this.bx = x;
         this.by = y;
         this.updateBounds();
     }
     
+    /**
+     * Helper function that updates the bounds of this component object
+     * so that the component can fully display the line.
+     */
     private void updateBounds() {
         int x = Math.min(ax, bx);
         int y = Math.min(ay, by);

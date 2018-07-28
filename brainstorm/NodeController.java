@@ -36,11 +36,6 @@ public class NodeController implements MouseListener,
     private LineController parentLine;
     
     /**
-     * A link to the controller of this controller's node's parent.
-     */
-    private NodeController parentController;
-    
-    /**
      * Variables used during dragging operation.
      */
     private int mouseStartingX = 0, mouseStartingY = 0,
@@ -239,13 +234,19 @@ public class NodeController implements MouseListener,
     /**
      * Sets all necessary relationship values between this node and its parent.
      * @param parent The controller of the parent node.
+     * @return true if successful, false otherwise.
      */
-    public void setParent(final NodeController parent) {
-        parentController = parent;
-        if (parentController != null) {
-            this.node.setParent(parentController.getNode());
-            parentLine.setParentNodeView(parentController.getView());
+    public boolean setParent(final NodeController parent) {
+        if (parent == null) {
+            return false;
         }
+        
+        if (this.node.setParent(parent.getNode())) {
+            parentLine.setParentNodeView(parent.getView());
+            return true;
+        }
+    
+        return false;
     }
     
     /**
@@ -309,10 +310,7 @@ public class NodeController implements MouseListener,
 
     // ******************* DocumentListener Methods ***************************
     @Override
-    public void changedUpdate(final DocumentEvent e) {
-        // TODO Auto-generated method stub
-        
-    }
+    public void changedUpdate(final DocumentEvent e) { /*Do nothing*/ }
 
     @Override
     public void insertUpdate(final DocumentEvent e) {

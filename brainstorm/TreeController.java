@@ -65,7 +65,7 @@ public final class TreeController {
     public void associateTree(final BPlusTree tree) {
         if (tree != null) {
             this.tree = tree;
-            root = new NodeController(this.tree.getRoot());
+            root = new NodeController(this.tree.getRoot(), null);
             buildTreeInGUI();
         }
     }
@@ -93,13 +93,33 @@ public final class TreeController {
             // Remove all viewers from the GUI
             for (NodeController nc: nodeControllers) {
                 view.removeFromDocument(nc.getView());
+                nodeControllers.remove(nc);
             }
             
-            // Now, take the data from the tree and build it in the view,
-            // creating new controllers and viewers for each node in the tree.
-            
-            // TODO Build the tree
+            for (Node n: tree.getAllNodesInOrder()) {
+                NodeController nc = new NodeController(n, new NodeView());
+                addNode(findController(n.getParent()), nc);
+            }
         }
+    }
+    
+    /**
+     * Finds the NodeController associated with the argument Node.
+     * 
+     * @param n The node model object
+     * @return The controller associated with the node model object.
+     */
+    public NodeController findController(final Node n) {
+        if (n == root.getNode()) {
+            return root;
+        }
+        
+        for (NodeController nc: nodeControllers) {
+            if (nc.getNode().equals(n)) {
+                return nc;
+            }
+        }
+        return null;
     }
 
     /**
@@ -168,11 +188,15 @@ public final class TreeController {
      */
     public void addNode(final NodeController parent,
                         final NodeController child) {
+        if (tree == null || parent == null || child == null) {
+            return;
+        }
+        
         if (tree.contains(child.getNode())) {
             moveNode(parent, child);
         }
         
-        if (tree != null && parent != null && child != null && parent != child) {
+        if (parent != child) {
             if (!tree.contains(parent.getNode())) {
                 addNodeAtRootOfTree(parent);
             }
@@ -209,9 +233,8 @@ public final class TreeController {
                 child.setParent(parent);
                 
                 // We only display the line if the parent is not root
-                if (parent == root) {
-                    view.removeFromDocument(child.getLineToParent().getView());
-                } else {
+                view.removeFromDocument(child.getLineToParent().getView());
+                if (parent != root) {
                     view.addToDocumentRear(child.getLineToParent().getView());
                 }
             }

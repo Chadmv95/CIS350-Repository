@@ -216,14 +216,34 @@ public class Node {
     }
     
     /**
+     * Returns a list containing all of this node's descendants.
+     * 
+     * @return A list containing all of this node's descendants.
+     */
+    public List<Node> getAllDescendants() {
+        ArrayList<Node> retVal = new ArrayList<Node>();
+        for (Node n: this.children) {
+            retVal.add(n);
+            retVal.addAll(n.getAllDescendants());
+        }
+        return retVal;
+    }
+    
+    /**
      * Sets the argument as this node's parent.
      * @param parent The new parent of this node.
+     * @return true if this the parent-child relationship was properly created,
+     * false otherwise.
      */
-    public void setParent(final Node parent) {
-    	this.parent = parent;
-    	if (this.parent != null && !this.parent.getChildren().contains(this)) {
-    	    this.parent.addChild(this);
+    public boolean setParent(final Node parent) {
+    	if (parent != this && parent != this.parent
+    	        && !this.getAllDescendants().contains(parent)) {
+            this.parent = parent;
+        	if (this.parent != null) {
+        	    return this.parent.addChild(this);
+        	}
     	}
+    	return false;
     }
 
 }
