@@ -50,9 +50,9 @@ public class TreeView {
     }
     
     /**
-     * Returns the component that parent containers should hold. This is
-     * the JPanel that has the JScrollPane and the document panel inside of
-     * it.
+     * Returns the component that parent components in the GUI should hold.
+     * This is the JPanel that has the JScrollPane and the document panel
+     * inside of it.
      * 
      * @return JPanel that holds the viewing object for the tree/document.
      */
@@ -81,6 +81,17 @@ public class TreeView {
      */
     public void addToDocumentRear(final Component comp) {
         documentPanel.add(comp);
+        documentPanel.revalidate();
+        documentPanel.repaint(comp.getBounds());
+    }
+    
+    /**
+     * Removes a component from the document panel.
+     * 
+     * @param comp Component to add.
+     */
+    public void removeFromDocument(final Component comp) {
+        documentPanel.remove(comp);
         documentPanel.revalidate();
         documentPanel.repaint(comp.getBounds());
     }

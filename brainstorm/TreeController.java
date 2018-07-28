@@ -29,6 +29,11 @@ public final class TreeController {
     private TreeView view;
     
     /**
+     * The controller of the root node.
+     */
+    private NodeController root;
+    
+    /**
      * A list of all of the NodeControllers so we have
      * references we can use to remove them if needed.
      */
@@ -59,8 +64,8 @@ public final class TreeController {
      */
     public void associateTree(final BPlusTree tree) {
         if (tree != null) {
-//            removeNodes();
             this.tree = tree;
+            root = new NodeController(this.tree.getRoot());
             buildTreeInGUI();
         }
     }
@@ -84,18 +89,17 @@ public final class TreeController {
      * model are displayed in the GUI in their proper locations.
      */
     private void buildTreeInGUI() {
-//        if (tree != null && view != null) {
-//            // Destroy all viewers and controllers for all old nodes
-//            for (NodeController nc: nodeControllers) {
-//                nc.getView().destroy(); // These methods don't exist yet...
-//                nc.destroy();
-//            }
-//            
-//            // Now, take the data from the tree and build it in the view,
-//            // creating new controllers and viewers for each node in the tree.
-//            
-//            // TODO Build the tree
-//        }
+        if (tree != null && view != null) {
+            // Remove all viewers from the GUI
+            for (NodeController nc: nodeControllers) {
+                view.removeFromDocument(nc.getView());
+            }
+            
+            // Now, take the data from the tree and build it in the view,
+            // creating new controllers and viewers for each node in the tree.
+            
+            // TODO Build the tree
+        }
     }
 
     /**
@@ -125,7 +129,9 @@ public final class TreeController {
      */
     public void createNodeAtRootOfTree(final String name,
                                        final String content) {
-        addNode(tree.getRoot(), new Node(name, content));
+        if (root != null) {
+            addNode(root, new NodeController(new Node(name, content)));
+        }
     }
 
     /**
@@ -135,7 +141,21 @@ public final class TreeController {
      * @param node The Node to add at the root of the tree.
      */
     public void addNodeAtRootOfTree(final Node node) {
-        addNode(tree.getRoot(), node);
+        if (root != null) {
+            addNode(root, new NodeController(node, new NodeView()));
+        }
+    }
+
+    /**
+     * Adds a pre-existing Node to the tree at the root of the tree.
+     * This method calls the addNode method.
+     * 
+     * @param nc The controller of the node to add at the root of the tree.
+     */
+    public void addNodeAtRootOfTree(final NodeController nc) {
+        if (root != null) {
+            addNode(root, nc);
+        }
     }
 
     /**
@@ -146,17 +166,55 @@ public final class TreeController {
      * @param parent The parent of the node to be added.
      * @param child The node to be added as a child of <i>parent</i>
      */
-    public void addNode(final Node parent, final Node child) {
-        if (!tree.contains(parent)) {
-            addNodeAtRootOfTree(parent);
+    public void addNode(final NodeController parent,
+                        final NodeController child) {
+        if (tree.contains(child.getNode())) {
+            moveNode(parent, child);
         }
         
-        if (tree.add(parent, child)) {
-            // Child was successfully added to parent in the tree
-            // Now, let's build the rest
-            NodeController nc = new NodeController(child, new NodeView());
-            nodeControllers.add(nc);
-            view.addToDocumentFront(nc.getView());
+        if (tree != null && parent != null && child != null && parent != child) {
+            if (!tree.contains(parent.getNode())) {
+                addNodeAtRootOfTree(parent);
+            }
+            
+            if (tree.add(parent.getNode(), child.getNode())) {
+                // Child was successfully added to parent in the tree
+                nodeControllers.add(child);
+                view.addToDocumentFront(child.getView());
+                if (parent != root) {
+                    view.addToDocumentRear(child.getLineToParent().getView());
+                }
+            }
+        }
+    }
+    
+    /**
+     * Moves a node from its current parent to a new parent.
+     * 
+     * @param parent New parent.
+     * @param child The child node to move.
+     */
+    public void moveNode(final NodeController parent,
+                         final NodeController child) {
+        if (tree == null || parent == null
+                || child == null || parent == child) {
+            return;
+        }
+        if (tree.contains(parent.getNode())
+                && tree.contains(child.getNode())) {
+            if (tree.move(parent.getNode(), child.getNode())) {
+                // Child was successfully added to parent in the tree.
+                // Now, let's reflect that in the GUI.
+                
+                child.setParent(parent);
+                
+                // We only display the line if the parent is not root
+                if (parent == root) {
+                    view.removeFromDocument(child.getLineToParent().getView());
+                } else {
+                    view.addToDocumentRear(child.getLineToParent().getView());
+                }
+            }
         }
     }
 }

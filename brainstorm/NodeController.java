@@ -196,6 +196,15 @@ public class NodeController implements MouseListener,
     }
     
     /**
+     * Returns the LineController of the line between this node and its parent.
+     * 
+     * @return The LineController between this node and its parent.
+     */
+    public LineController getLineToParent() {
+        return parentLine;
+    }
+    
+    /**
      * Returns whether or not this controller is associated with the passed
      * NodeView view object.
      * 
@@ -236,6 +245,20 @@ public class NodeController implements MouseListener,
         if (parentController != null) {
             this.node.setParent(parentController.getNode());
             parentLine.setParentNodeView(parentController.getView());
+        }
+    }
+    
+    /**
+     * Adds the child in the model, and establishes the link for the line.
+     * 
+     * @param childController Controller of the child Node.
+     */
+    public void addChild(final NodeController childController) {
+        if (childController != null) {
+            if (this.node.addChild(childController.getNode())) {
+                // The addChild call was successful, so we can do this.
+                childController.setParent(this);
+            }
         }
     }
     

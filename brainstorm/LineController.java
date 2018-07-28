@@ -31,14 +31,18 @@ public class LineController {
     
     public void setParentNodeView(final NodeView nvParent) {
         parentWatcher.watch(nvParent);
-        view.setPointA((int) nvParent.getBounds().getCenterX(),
-                       (int) nvParent.getBounds().getCenterY());
+        if (nvParent != null) {
+            view.setPointA((int) nvParent.getBounds().getCenterX(),
+                           (int) nvParent.getBounds().getCenterY());
+        }
     }
     
     public void setChildNodeView(final NodeView nvChild) {
         childWatcher.watch(nvChild);
-        view.setPointB((int) nvChild.getBounds().getCenterX(),
-                       (int) nvChild.getBounds().getCenterY());
+        if (nvChild != null) {
+            view.setPointB((int) nvChild.getBounds().getCenterX(),
+                           (int) nvChild.getBounds().getCenterY());
+        }
     }
     
     private class NodeViewWatcher implements MouseMotionListener {
@@ -80,6 +84,5 @@ public class LineController {
 
         @Override
         public void mouseMoved(final MouseEvent e) { /*Do Nothing*/ }
-
     }
 }
