@@ -118,6 +118,40 @@ public class BPlusTree {
     }
     
     /**
+     * Moves a node to a new parent if both nodes are already in the tree.
+     * 
+     * @param newParent The child's new parent.
+     * @param child The node to be moved.
+     * @return true if the move was successful, false otherwise.
+     */
+    public boolean move(final Node newParent, final Node child) {
+        if (newParent == null || child == null) {
+            return false;
+        }
+        
+        if (this.contains(newParent) && this.contains(child)) {
+            Node oldParent = child.getParent();
+            if (oldParent.removeChild(child)) {
+                // Success!
+                if (newParent.addChild(child)) {
+                    // Success!
+                    return true;
+                } else {
+                    // Failure! ... Let's give the child back so it doesn't
+                    // become an orphan.
+                    oldParent.addChild(child);
+                    return false;
+                }
+            } else {
+                // Failure!
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+    
+    /**
      * Returns a List all of the Nodes in the tree EXCEPT the root node. This
      * list is in the order that the nodes were added to the tree. Such a list
      * should have all of its nodes created before creating parent-child
@@ -181,9 +215,9 @@ public class BPlusTree {
             return false;
         } else if (root.equals(n)) {
             return true;
+        } else {
+            return childrenOfRoot.contains(n);
         }
-        
-        return childrenOfRoot.contains(n);
     }
     
     /**
