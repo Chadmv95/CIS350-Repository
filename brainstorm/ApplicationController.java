@@ -2,6 +2,7 @@ package brainstorm;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.io.File;
 
 import javax.swing.JFileChooser;
@@ -222,22 +223,25 @@ public final class ApplicationController {
     	file.write("{");
 		file.write("\"Name\":\"" + node.getName() + "\",");
 		file.write("\"Content\":\"" + node.getContent() + "\",");
-		file.write("\"Bounds\":\"" + node.getBounds() + "\"");
+		file.write("\"Bounds\":\"" + node.getBounds() + "\",");
 		
 		//call for printing child
+		file.write( "\"Children\":[" );
 		if(node.getNumChildren() > 0) {
-			file.write( "{\"Children:\":[" );
+			
 			int i = 0;
 			for( Node childNode : node.getChildren() ) {
     			try {
     				writeChildren(file, childNode, i, node.getNumChildren());
-    				file.write("]");
+    				
 	    			} catch (IOException e) {
 	    				e.printStackTrace();
 	    		}
     			i++;
 			}
 		}
+		file.write("]");
+		
 		
 		//finish writing node
 		file.write("}");
@@ -247,26 +251,54 @@ public final class ApplicationController {
     }
     
     private void openfile(File selectedFile) throws Exception{ 
-    	System.out.println("we are in");
+    	
+    	BPlusTree tree = new BPlusTree();
+    	
+    	
+    	 System.out.println("we are in");
     	 Object obj = new JSONParser().parse(new FileReader(selectedFile));
     	 JSONObject jo = (JSONObject) obj;
+    	 Rectangle rect = new Rectangle();
     	 System.out.println(jo);
     	 
     	 JSONObject root = (JSONObject) jo.get("Root");
     	 JSONArray children = (JSONArray) root.get("Children");
-    	 for (Object node : children) {
-    		 System.out.println("Name: " + ((JSONObject) node).get("Name") );
-    		 System.out.println("Name: " + ((JSONObject) node).get("Content") );
-    		 System.out.println("Name: " + ((JSONObject) node).get("Bounds") );
+    	 System.out.println("root array: " + children.size());
+    	 
+    	 
+    	 
+    	 for (Object joNode : children) {
+    		 Node node = new Node();
+    		 String domain;
+    		 
+    		 node.setName( (String) ((JSONObject) joNode).get("Name") );
+    		 node.setContent( (String) ((JSONObject) joNode).get("Content") );
+    		 domain = ( (String) ((JSONObject) joNode).get("Bounds") );
+    		 
+    		 JSONObject ListKids = (JSONObject) joNode;
+        	 JSONArray kids = (JSONArray) ListKids.get("Children");
+    		 System.out.println("child array -------  " + kids.size() );
+    				 
+    		 // Parse Domain
+    		 String[] corrd = domain.split("[\\[,\\]=]"); 
+    		 rect.setBounds(
+    				 Integer.parseInt(corrd[2]),
+    				 Integer.parseInt(corrd[4]),
+    				 Integer.parseInt(corrd[6]),
+    				 Integer.parseInt(corrd[8]) 
+    		 ); 
+    		 node.setBounds(rect);
+    		 
+    		 System.out.println("Name: " + node.getName() );
+    		 System.out.println("content: " +  node.getContent() );
+    		 System.out.println("domain: " + node.getBounds() );
+    		 
+    		 tree.add(node);
     	 }
     	 
-         
-    	 String name = (String) jo.get("Name");
-    	 System.out.println(name);
     	 
-    	  
-         
-    }
-    
-    
+    	 
+    	 
+    	 
+    } 
 }
