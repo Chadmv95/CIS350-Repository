@@ -1,2 +1,8 @@
 https://www.javatips.net/blog/eclipse-checkstyle-tutorial
 https://github.com/checkstyle/checkstyle/releases/
+
+-- How to add external libraries to eclipse -- 
+http://www.oxfordmathcenter.com/drupal7/node/44
+
+-- JSON simple .jar --
+http://www.java2s.com/Code/Jar/j/Downloadjsonsimple111jar.htm
