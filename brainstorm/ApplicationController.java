@@ -9,7 +9,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import java.io.FileWriter;
-import java.io.PrintWriter;
 import java.io.IOException;
  
 //import org.json.simple.JSONArray;
@@ -194,44 +193,45 @@ public final class ApplicationController {
     private void writeToJSON(FileWriter file, BPlusTree tree) throws IOException {
     	
     	file.write("{\"" + tree.getRoot().getName() + "\":");
-    	file.write( "{\"Children:\":[" );
+    	file.write( "{\"Children\":[" );
+    	int i = 0;
     	for ( Node node : tree.getRoot().getChildren() ) {
-    		//write object
-    		file.write("{");
-    		file.write("\"Name\":\"" + node.getName() + "\",");
-    		file.write("\"Content\":\"" + node.getContent() + "\",");
-    		file.write("\"Bounds\":\"" + node.getBounds() + "\"");
-    		if(node.getNumChildren() > 0) {
-    			for( Node childNode : node.getChildren() ) {
-	    			try {
-	    				writeChildren(file, childNode);
-		    			} catch (IOException e) {
-		    				e.printStackTrace();
-		    		}
-    			}
-    		}
-    		
-    		file.write("},");
+    		writeChildren(file, node, i, tree.getRoot().getNumChildren());
+    		i++;
     	}
+    	
     	file.write("]}");
     	file.write("}");
     }
     
-    private void writeChildren(FileWriter file, Node node) throws IOException {
+    private void writeChildren(FileWriter file, Node node, int index, int size) throws IOException {
+    	//begin writing node
+    	
     	file.write("{");
 		file.write("\"Name\":\"" + node.getName() + "\",");
 		file.write("\"Content\":\"" + node.getContent() + "\",");
 		file.write("\"Bounds\":\"" + node.getBounds() + "\"");
+		
+		//call for printing child
 		if(node.getNumChildren() > 0) {
+			file.write( "{\"Children:\":[" );
+			int i = 0;
 			for( Node childNode : node.getChildren() ) {
     			try {
-    				writeChildren(file, childNode);
+    				writeChildren(file, childNode, i, node.getNumChildren());
+    				file.write("]");
 	    			} catch (IOException e) {
 	    				e.printStackTrace();
 	    		}
+    			i++;
 			}
 		}
-		file.write("},");
+		
+		//finish writing node
+		file.write("}");
+		if(index != size-1) {
+			file.write(",");
+		}
     }
     
     
