@@ -188,9 +188,51 @@ public final class ApplicationController {
 		}
     }
     
+    /**
+     * Utility function to help writing saves into JSON
+     */
     private void writeToJSON(FileWriter file, BPlusTree tree) throws IOException {
     	
-    	file.write("{\"" + tree.getRoot().getName()+ "\"}");
-    	
+    	file.write("{\"" + tree.getRoot().getName() + "\":");
+    	file.write( "{\"Children:\":[" );
+    	for ( Node node : tree.getRoot().getChildren() ) {
+    		//write object
+    		file.write("{");
+    		file.write("\"Name\":\"" + node.getName() + "\",");
+    		file.write("\"Content\":\"" + node.getContent() + "\",");
+    		file.write("\"Bounds\":\"" + node.getBounds() + "\"");
+    		if(node.getNumChildren() > 0) {
+    			for( Node childNode : node.getChildren() ) {
+	    			try {
+	    				writeChildren(file, childNode);
+		    			} catch (IOException e) {
+		    				e.printStackTrace();
+		    		}
+    			}
+    		}
+    		
+    		file.write("},");
+    	}
+    	file.write("]}");
+    	file.write("}");
     }
+    
+    private void writeChildren(FileWriter file, Node node) throws IOException {
+    	file.write("{");
+		file.write("\"Name\":\"" + node.getName() + "\",");
+		file.write("\"Content\":\"" + node.getContent() + "\",");
+		file.write("\"Bounds\":\"" + node.getBounds() + "\"");
+		if(node.getNumChildren() > 0) {
+			for( Node childNode : node.getChildren() ) {
+    			try {
+    				writeChildren(file, childNode);
+	    			} catch (IOException e) {
+	    				e.printStackTrace();
+	    		}
+			}
+		}
+		file.write("},");
+    }
+    
+    
 }
