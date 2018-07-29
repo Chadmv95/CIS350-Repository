@@ -135,12 +135,10 @@ public final class ApplicationController {
             if (selectedFile != null) {
                 currentFile = selectedFile;
                 // TODO Implement functionality to turn a file into a BPlusTree
-                System.out.println("Out was called");
                 try {
-                	openfile(selectedFile);
+                	BPlusTree tree = openfile(selectedFile);
                 } catch (Exception e) {
                 	System.out.println("Caught Error: openFile");
-                	//do something;
                 }
             }
         }
@@ -250,55 +248,62 @@ public final class ApplicationController {
 		}
     }
     
-    private void openfile(File selectedFile) throws Exception{ 
+    /*
+     * Open file 
+     *     Returns BPlusTree with contents of load file
+     */
+    private BPlusTree openfile(File selectedFile) throws Exception { 
     	
-    	BPlusTree tree = new BPlusTree();
-    	
+    	 BPlusTree tree = new BPlusTree();
     	
     	 System.out.println("we are in");
     	 Object obj = new JSONParser().parse(new FileReader(selectedFile));
     	 JSONObject jo = (JSONObject) obj;
-    	 Rectangle rect = new Rectangle();
-    	 System.out.println(jo);
     	 
     	 JSONObject root = (JSONObject) jo.get("Root");
     	 JSONArray children = (JSONArray) root.get("Children");
-    	 System.out.println("root array: " + children.size());
-    	 
-    	 
     	 
     	 for (Object joNode : children) {
-    		 Node node = new Node();
-    		 String domain;
-    		 
-    		 node.setName( (String) ((JSONObject) joNode).get("Name") );
-    		 node.setContent( (String) ((JSONObject) joNode).get("Content") );
-    		 domain = ( (String) ((JSONObject) joNode).get("Bounds") );
-    		 
-    		 JSONObject ListKids = (JSONObject) joNode;
-        	 JSONArray kids = (JSONArray) ListKids.get("Children");
-    		 System.out.println("child array -------  " + kids.size() );
-    				 
-    		 // Parse Domain
-    		 String[] corrd = domain.split("[\\[,\\]=]"); 
-    		 rect.setBounds(
-    				 Integer.parseInt(corrd[2]),
-    				 Integer.parseInt(corrd[4]),
-    				 Integer.parseInt(corrd[6]),
-    				 Integer.parseInt(corrd[8]) 
-    		 ); 
-    		 node.setBounds(rect);
-    		 
-    		 System.out.println("Name: " + node.getName() );
-    		 System.out.println("content: " +  node.getContent() );
-    		 System.out.println("domain: " + node.getBounds() );
-    		 
-    		 tree.add(node);
+    		 tree.add( parseNode(joNode) );
     	 }
     	 
+    	 tree.printTree();
     	 
+    	 return tree;
     	 
-    	 
-    	 
-    } 
+    }
+    
+    
+    /* Recursive function to open nodes with children 
+     * 
+     */
+    private Node parseNode(Object input) {
+    	 Node node = new Node();
+		 String domain;
+    	 Rectangle rect = new Rectangle();
+		 
+		 node.setName( (String) ((JSONObject) input).get("Name") );
+		 node.setContent( (String) ((JSONObject) input).get("Content") );
+		 domain = ( (String) ((JSONObject) input).get("Bounds") );
+		// Parse Domain
+		 String[] corrd = domain.split("[\\[,\\]=]"); 
+		 rect.setBounds(
+				 Integer.parseInt(corrd[2]),
+				 Integer.parseInt(corrd[4]),
+				 Integer.parseInt(corrd[6]),
+				 Integer.parseInt(corrd[8]) 
+		 ); 
+		 node.setBounds(rect);
+		 
+		 JSONObject ListKids = (JSONObject) input;
+	   	 JSONArray children = (JSONArray) ListKids.get("Children");
+	   	 
+	   	 if(children.size() > 0) {
+	   		for (Object joNode : children) {
+	    		 node.addChild(parseNode(joNode));
+	    	 }
+	   	 }
+    	
+    	return (Node) node; 
+    }
 }

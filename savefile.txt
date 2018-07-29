@@ -1,0 +1,35 @@
+{
+  "Root": {
+    "Children": 
+    [
+      {
+        "Name": "Name One",
+        "Content": "Content One",
+        "Bounds": "java.awt.Rectangle[x=20,y=20,width=200,height=100]",
+        "Children": [
+          {
+            "Name": "Child of One",
+            "Content": "Contents of Child",
+            "Bounds": "java.awt.Rectangle[x=20,y=20,width=200,height=100]",
+            "Children": [
+            	{
+            		"Name": "Child of Child",
+            		"Content": "Contents of Child's Child",
+            		"Bounds": "java.awt.Rectangle[x=20,y=20,width=200,height=100]",
+            		"Children": [
+            		]
+            	}
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "Name Two",
+        "Content": "Contents of Two",
+        "Bounds": "java.awt.Rectangle[x=38,y=190,width=200,height=100]",
+        "Children": [
+        ]
+      },
+    ]
+  }
+}
