@@ -43,28 +43,6 @@ public class NodeController implements MouseListener,
                 nodeOldX = 0, nodeOldY = 0;
     
     /**
-     * Creates a "blank" NodeController.
-     * 
-     * You will want to create a new view and a new node
-     * 
-     */
-    public NodeController() {
-        parentLine = new LineController(new LineView());
-    }
-    
-    /**
-     * Creates a NodeController that is associated with the supplied
-     * Node model object.
-     * 
-     * @param node The Node model object that will be associated with this
-     * controller.
-     */
-    public NodeController(final Node node) {
-        parentLine = new LineController(new LineView());
-        this.node = node;
-    }
-    
-    /**
      * Creates a NodeController that is associated with the supplied
      * NodeView view object.
      * 

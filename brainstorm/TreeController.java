@@ -150,7 +150,8 @@ public final class TreeController {
     public void createNodeAtRootOfTree(final String name,
                                        final String content) {
         if (root != null) {
-            addNode(root, new NodeController(new Node(name, content)));
+            addNode(root, new NodeController(new Node(name, content),
+                                             new NodeView()));
         }
     }
 
