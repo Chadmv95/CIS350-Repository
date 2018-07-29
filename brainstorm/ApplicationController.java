@@ -9,10 +9,15 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import java.io.FileWriter;
+import java.io.FileReader;
 import java.io.IOException;
  
-//import org.json.simple.JSONArray;
-//import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.*;
+
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * A Singleton class that performs tasks of controlling the application.
@@ -129,6 +134,13 @@ public final class ApplicationController {
             if (selectedFile != null) {
                 currentFile = selectedFile;
                 // TODO Implement functionality to turn a file into a BPlusTree
+                System.out.println("Out was called");
+                try {
+                	openfile(selectedFile);
+                } catch (Exception e) {
+                	System.out.println("Caught Error: openFile");
+                	//do something;
+                }
             }
         }
     }
@@ -232,6 +244,28 @@ public final class ApplicationController {
 		if(index != size-1) {
 			file.write(",");
 		}
+    }
+    
+    private void openfile(File selectedFile) throws Exception{ 
+    	System.out.println("we are in");
+    	 Object obj = new JSONParser().parse(new FileReader(selectedFile));
+    	 JSONObject jo = (JSONObject) obj;
+    	 System.out.println(jo);
+    	 
+    	 JSONObject root = (JSONObject) jo.get("Root");
+    	 JSONArray children = (JSONArray) root.get("Children");
+    	 for (Object node : children) {
+    		 System.out.println("Name: " + ((JSONObject) node).get("Name") );
+    		 System.out.println("Name: " + ((JSONObject) node).get("Content") );
+    		 System.out.println("Name: " + ((JSONObject) node).get("Bounds") );
+    	 }
+    	 
+         
+    	 String name = (String) jo.get("Name");
+    	 System.out.println(name);
+    	 
+    	  
+         
     }
     
     
