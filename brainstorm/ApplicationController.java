@@ -2,11 +2,23 @@ package brainstorm;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.io.File;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+
+import java.io.FileWriter;
+import java.io.FileReader;
+import java.io.IOException;
+ 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.*;
+
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * A Singleton class that performs tasks of controlling the application.
@@ -123,6 +135,11 @@ public final class ApplicationController {
             if (selectedFile != null) {
                 currentFile = selectedFile;
                 // TODO Implement functionality to turn a file into a BPlusTree
+                try {
+                	BPlusTree tree = openfile(selectedFile);
+                } catch (Exception e) {
+                	System.out.println("Caught Error: openFile");
+                }
             }
         }
     }
@@ -134,7 +151,7 @@ public final class ApplicationController {
      */
     public void saveFile() {
         if (currentFile != null) {
-            saveWorkspace();
+            saveWorkspace(currentFile);
         } else {
             saveFileAs();
         }
@@ -150,7 +167,7 @@ public final class ApplicationController {
             File selectedFile = fileChooser.getSelectedFile();
             if (selectedFile != null) {
                 currentFile = selectedFile;
-                saveWorkspace();
+                saveWorkspace(currentFile);
             }
         }
     }
@@ -159,7 +176,134 @@ public final class ApplicationController {
      * Private helper function that saves the workspace under the file contained
      * in currentFile.
      */
-    private void saveWorkspace() {
+    private void saveWorkspace(File file_path) {
         // TODO Add functionality to turn the current BPlusTree into a file.
+    	System.out.println("saveWorkspace Called");
+    	System.out.println(file_path);
+    	BPlusTree temp = TreeController.getInstance().getTree();
+    	
+    	
+    	try {
+    		FileWriter file = new FileWriter(file_path);
+    		
+    		
+			writeToJSON(file, temp);
+			
+			file.flush();
+	    	file.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			System.out.println("Save Successful");
+		}
+    }
+    
+    /**
+     * Utility function to help writing saves into JSON
+     */
+    private void writeToJSON(FileWriter file, BPlusTree tree) throws IOException {
+    	
+    	file.write("{\"" + tree.getRoot().getName() + "\":");
+    	file.write( "{\"Children\":[" );
+    	int i = 0;
+    	for ( Node node : tree.getRoot().getChildren() ) {
+    		writeChildren(file, node, i, tree.getRoot().getNumChildren());
+    		i++;
+    	}
+    	
+    	file.write("]}");
+    	file.write("}");
+    }
+    
+    private void writeChildren(FileWriter file, Node node, int index, int size) throws IOException {
+    	//begin writing node
+    	
+    	file.write("{");
+		file.write("\"Name\":\"" + node.getName() + "\",");
+		file.write("\"Content\":\"" + node.getContent() + "\",");
+		file.write("\"Bounds\":\"" + node.getBounds() + "\",");
+		
+		//call for printing child
+		file.write( "\"Children\":[" );
+		if(node.getNumChildren() > 0) {
+			
+			int i = 0;
+			for( Node childNode : node.getChildren() ) {
+    			try {
+    				writeChildren(file, childNode, i, node.getNumChildren());
+    				
+	    			} catch (IOException e) {
+	    				e.printStackTrace();
+	    		}
+    			i++;
+			}
+		}
+		file.write("]");
+		
+		
+		//finish writing node
+		file.write("}");
+		if(index != size-1) {
+			file.write(",");
+		}
+    }
+    
+    /*
+     * Open file 
+     *     Returns BPlusTree with contents of load file
+     */
+    private BPlusTree openfile(File selectedFile) throws Exception { 
+    	
+    	 BPlusTree tree = new BPlusTree();
+    	
+    	 System.out.println("we are in");
+    	 Object obj = new JSONParser().parse(new FileReader(selectedFile));
+    	 JSONObject jo = (JSONObject) obj;
+    	 
+    	 JSONObject root = (JSONObject) jo.get("Root");
+    	 JSONArray children = (JSONArray) root.get("Children");
+    	 
+    	 for (Object joNode : children) {
+    		 tree.add( parseNode(joNode) );
+    	 }
+    	 
+    	 tree.printTree();
+    	 
+    	 return tree;
+    	 
+    }
+    
+    
+    /* Recursive function to open nodes with children 
+     * 
+     */
+    private Node parseNode(Object input) {
+    	 Node node = new Node();
+		 String domain;
+    	 Rectangle rect = new Rectangle();
+		 
+		 node.setName( (String) ((JSONObject) input).get("Name") );
+		 node.setContent( (String) ((JSONObject) input).get("Content") );
+		 domain = ( (String) ((JSONObject) input).get("Bounds") );
+		// Parse Domain
+		 String[] corrd = domain.split("[\\[,\\]=]"); 
+		 rect.setBounds(
+				 Integer.parseInt(corrd[2]),
+				 Integer.parseInt(corrd[4]),
+				 Integer.parseInt(corrd[6]),
+				 Integer.parseInt(corrd[8]) 
+		 ); 
+		 node.setBounds(rect);
+		 
+		 JSONObject ListKids = (JSONObject) input;
+	   	 JSONArray children = (JSONArray) ListKids.get("Children");
+	   	 
+	   	 if(children.size() > 0) {
+	   		for (Object joNode : children) {
+	    		 node.addChild(parseNode(joNode));
+	    	 }
+	   	 }
+    	
+    	return (Node) node; 
     }
 }
