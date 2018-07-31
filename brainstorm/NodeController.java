@@ -122,7 +122,7 @@ public class NodeController implements MouseListener,
         this.view = view;
         if (this.view != null) {
             this.view.addMouseListener(this);
-            this.view.addMouseListener(
+            this.view.associateMouseClickListener(
                     PopupMenuController.getInstance().getClickListener());
             this.view.addMouseMotionListener(this);
             this.view.addNameFieldListener(this);

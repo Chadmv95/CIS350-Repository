@@ -248,6 +248,29 @@ public class BPlusTree {
     }
     
     /**
+     * Removes this selected node from the tree, which assigns all children
+     * of the node to the node's parent.
+     * 
+     * @param n The Node to be removed from the tree.
+     * @return Whether or not the method was successful.
+     */
+    public boolean remove(final Node n) {
+        if (n == null || n == root || !this.contains(n)) {
+            return false;
+        }
+        
+        for (Node child: n.getChildren()) {
+            if (!this.move(n.getParent(), child)) {
+                // We had a problem moving a node. Abort!
+                return false;
+            }
+        }
+        n.setParent(null);
+        this.childrenOfRoot.remove(n);
+        return true;
+    }
+    
+    /**
      * Searches the tree for the a Node whose Title matches the argument.
      * 
      * It calls a helper function which uses root

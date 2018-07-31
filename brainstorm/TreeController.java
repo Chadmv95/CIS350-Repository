@@ -291,4 +291,20 @@ public final class TreeController {
             }
         }
     }
+    
+    /**
+     * Removes a node and moves all of its children to this node's parents. 
+     * @param nc The controller of the node to be removed.
+     */
+    public void removeNode(final NodeController nc) {
+        List<Node> children = nc.getNode().getChildren();
+        if (tree.remove(nc.getNode())) {
+            view.removeFromDocument(nc.getView());
+            view.removeFromDocument(nc.getLineToParent().getView());
+            nodeControllers.remove(nc);
+            for (Node nChild: children) {
+                moveNode(findController(nChild.getParent()), findController(nChild));
+            }
+        }
+    }
 }

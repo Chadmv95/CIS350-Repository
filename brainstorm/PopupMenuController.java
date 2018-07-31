@@ -7,6 +7,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
 /**
  * This class controls pop-up menu behavior. 
  * 
@@ -84,20 +87,30 @@ public final class PopupMenuController {
      * @param menuChoice String representation of the chosen menu item.
      */
     private void performPopupAction(final String menuChoice) {
+        NodeView nv = null;
+        if (lastClicked instanceof NodeView) {
+            nv = (NodeView) lastClicked;
+        } else if (lastClicked instanceof JTextField) {
+            // Name/Title area
+            nv = (NodeView) lastClicked.getParent();
+        } else if (lastClicked instanceof JTextArea) {
+            // Content/Data area
+            nv = (NodeView) lastClicked.getParent().getParent().getParent();
+        }
+
+        TreeController tc = TreeController.getInstance();
+        
         switch (menuChoice) {
         case "Delete This Node":
             System.out.println("Delete This Node Clicked!");
+            tc.removeNode(tc.findController(nv));
             break;
         case "Move This Node":
             System.out.println("Move This Node Clicked!");
             break;
         case "Create Child Node":
             System.out.println("Create Child Node Clicked!");
-            if (lastClicked instanceof NodeView) {
-                TreeController tc = TreeController.getInstance();
-                System.out.println(tc.findController((NodeView) lastClicked));
-                tc.createChildOf(tc.findController((NodeView) lastClicked));
-            }
+            tc.createChildOf(tc.findController(nv));
             break;
         default:
             // Do nothing
@@ -149,7 +162,7 @@ public final class PopupMenuController {
     private class PopActionListener implements ActionListener {
 
         @Override
-        public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(final ActionEvent e) {
             performPopupAction(e.getActionCommand());
         }
         

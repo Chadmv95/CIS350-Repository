@@ -2,6 +2,7 @@ package brainstorm;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -202,5 +203,16 @@ public class NodeView extends JPanel {
      */
     public boolean isContentFieldDocument(final Document doc) {
         return contentField.getDocument().equals(doc);
+    }
+    
+    /**
+     * This method associates a MouseListener with all parts of the NodeView.
+     * 
+     * @param ml The MouseListener to be added to this view.
+     */
+    public void associateMouseClickListener(final MouseListener ml) {
+        this.addMouseListener(ml);
+        this.nameField.addMouseListener(ml);
+        this.contentField.addMouseListener(ml);
     }
 }
