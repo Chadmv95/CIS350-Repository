@@ -103,7 +103,13 @@ public final class TreeController {
         }
     }
     
-    private void buildNodeInGUI(Node n) {
+    /**
+     * This method creates the necessary controllers and views, and properly
+     * associates them with one another.
+     * 
+     * @param n The node to "build".
+     */
+    private void buildNodeInGUI(final Node n) {
         NodeController nc = new NodeController(n, new NodeView());
         nodeControllers.add(nc);
         view.addToDocumentFront(nc.getView());
