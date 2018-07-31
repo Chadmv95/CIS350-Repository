@@ -239,7 +239,8 @@ public class Node {
     	if (parent != this && parent != this.parent
     	        && !this.getAllDescendants().contains(parent)) {
             this.parent = parent;
-        	if (this.parent != null) {
+        	if (this.parent != null
+        	        && !this.parent.getChildren().contains(this)) {
         	    return this.parent.addChild(this);
         	}
     	}

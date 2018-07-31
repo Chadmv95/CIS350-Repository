@@ -1,6 +1,7 @@
 package brainstorm;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -91,8 +92,9 @@ public final class TreeController {
     private void buildTreeInGUI() {
         if (tree != null && view != null) {
             // Remove all viewers from the GUI
-            for (NodeController nc: nodeControllers) {
-                view.removeFromDocument(nc.getView());
+            Object[] ncArray = nodeControllers.toArray();
+            for (Object nc: ncArray) {
+                view.removeFromDocument(((NodeController) nc).getView());
                 nodeControllers.remove(nc);
             }
             
@@ -169,7 +171,7 @@ public final class TreeController {
     public void createNodeAtRootOfTree(final String name,
                                        final String content) {
         if (root != null) {
-            addNode(root, new NodeController(new Node(name, content),
+            this.addNode(root, new NodeController(new Node(name, content),
                                              new NodeView()));
         }
     }
@@ -182,7 +184,7 @@ public final class TreeController {
      */
     public void addNodeAtRootOfTree(final Node node) {
         if (root != null) {
-            addNode(root, new NodeController(node, new NodeView()));
+            this.addNode(root, new NodeController(node, new NodeView()));
         }
     }
 
@@ -194,7 +196,7 @@ public final class TreeController {
      */
     public void addNodeAtRootOfTree(final NodeController nc) {
         if (root != null) {
-            addNode(root, nc);
+            this.addNode(root, nc);
         }
     }
 
@@ -213,12 +215,13 @@ public final class TreeController {
         }
         
         if (tree.contains(child.getNode())) {
-            moveNode(parent, child);
+            this.moveNode(parent, child);
+            return;
         }
         
         if (parent != child) {
             if (!tree.contains(parent.getNode())) {
-                addNodeAtRootOfTree(parent);
+                this.addNodeAtRootOfTree(parent);
             }
             
             if (tree.add(parent.getNode(), child.getNode())) {

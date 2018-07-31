@@ -85,14 +85,8 @@ public class BPlusTree {
             return false;
         }
         
-        if (parent.equals(root) && parent.addChild(child)) {
-            // addChild was successful. Add the child to our private list of
-            // Nodes for quick reference in the future.
-            childrenOfRoot.add(child);
-            return true;
-        }
-        
-        if (childrenOfRoot.contains(parent) && parent.addChild(child)) {
+        if ((parent.equals(root) || childrenOfRoot.contains(parent))
+                                           && parent.addChild(child)) {
             // addChild was successful. Add the child to our private list of
             // Nodes for quick reference in the future.
             childrenOfRoot.add(child);
