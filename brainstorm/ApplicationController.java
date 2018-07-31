@@ -134,9 +134,9 @@ public final class ApplicationController {
             File selectedFile = fileChooser.getSelectedFile();
             if (selectedFile != null) {
                 currentFile = selectedFile;
-                // TODO Implement functionality to turn a file into a BPlusTree
                 try {
                 	BPlusTree tree = openfile(selectedFile);
+                	TreeController.getInstance().associateTree(tree);
                 } catch (Exception e) {
                 	System.out.println("Caught Error: openFile");
                 }
@@ -175,17 +175,17 @@ public final class ApplicationController {
     /**
      * Private helper function that saves the workspace under the file contained
      * in currentFile.
+     * 
+     * @param fileName The File that the the current tree is written into.
      */
-    private void saveWorkspace(File file_path) {
-        // TODO Add functionality to turn the current BPlusTree into a file.
-    	System.out.println("saveWorkspace Called");
-    	System.out.println(file_path);
+    private void saveWorkspace(final File fileName) {
+        System.out.println("saveWorkspace Called");
+    	System.out.println(fileName);
     	BPlusTree temp = TreeController.getInstance().getTree();
     	
     	
     	try {
-    		FileWriter file = new FileWriter(file_path);
-    		
+    		FileWriter file = new FileWriter(fileName);
     		
 			writeToJSON(file, temp);
 			
@@ -199,14 +199,20 @@ public final class ApplicationController {
     }
     
     /**
-     * Utility function to help writing saves into JSON
+     * Utility function to help writing saves into JSON.
+     * 
+     * @param file The file to write the JSON to.
+     * @param tree The tree to change into a JSON.
+     * 
+     * @throws IOException If the 
      */
-    private void writeToJSON(FileWriter file, BPlusTree tree) throws IOException {
+    private void writeToJSON(final FileWriter file, final BPlusTree tree)
+                                                        throws IOException {
     	
     	file.write("{\"" + tree.getRoot().getName() + "\":");
-    	file.write( "{\"Children\":[" );
+    	file.write("{\"Children\":[");
     	int i = 0;
-    	for ( Node node : tree.getRoot().getChildren() ) {
+    	for (Node node : tree.getRoot().getChildren()) {
     		writeChildren(file, node, i, tree.getRoot().getNumChildren());
     		i++;
     	}
@@ -215,7 +221,8 @@ public final class ApplicationController {
     	file.write("}");
     }
     
-    private void writeChildren(FileWriter file, Node node, int index, int size) throws IOException {
+    private void writeChildren(final FileWriter file, final Node node,
+                        final int index, final int size) throws IOException {
     	//begin writing node
     	
     	file.write("{");
@@ -224,15 +231,15 @@ public final class ApplicationController {
 		file.write("\"Bounds\":\"" + node.getBounds() + "\",");
 		
 		//call for printing child
-		file.write( "\"Children\":[" );
-		if(node.getNumChildren() > 0) {
+		file.write("\"Children\":[");
+		if (node.getNumChildren() > 0) {
 			
 			int i = 0;
-			for( Node childNode : node.getChildren() ) {
+			for (Node childNode : node.getChildren()) {
     			try {
-    				writeChildren(file, childNode, i, node.getNumChildren());
-    				
-	    			} catch (IOException e) {
+    				writeChildren(file, childNode, i,
+    				              node.getNumChildren());
+    				} catch (IOException e) {
 	    				e.printStackTrace();
 	    		}
     			i++;
@@ -240,19 +247,23 @@ public final class ApplicationController {
 		}
 		file.write("]");
 		
-		
 		//finish writing node
 		file.write("}");
-		if(index != size-1) {
+		if (index != size - 1) {
 			file.write(",");
 		}
     }
     
-    /*
-     * Open file 
-     *     Returns BPlusTree with contents of load file
+    /**
+     * Open file.
+     * 
+     * @param selectedFile The file to open.
+     * 
+     * @return BPlusTree with contents of load file
+     * 
+     * @throws Exception This throws an exception.
      */
-    private BPlusTree openfile(File selectedFile) throws Exception { 
+    private BPlusTree openfile(final File selectedFile) throws Exception { 
     	
     	 BPlusTree tree = new BPlusTree();
     	
@@ -264,7 +275,7 @@ public final class ApplicationController {
     	 JSONArray children = (JSONArray) root.get("Children");
     	 
     	 for (Object joNode : children) {
-    		 tree.add( parseNode(joNode) );
+    		 tree.add(parseNode(joNode));
     	 }
     	 
     	 tree.printTree();
@@ -282,9 +293,9 @@ public final class ApplicationController {
 		 String domain;
     	 Rectangle rect = new Rectangle();
 		 
-		 node.setName( (String) ((JSONObject) input).get("Name") );
-		 node.setContent( (String) ((JSONObject) input).get("Content") );
-		 domain = ( (String) ((JSONObject) input).get("Bounds") );
+		 node.setName((String) ((JSONObject) input).get("Name"));
+		 node.setContent((String) ((JSONObject) input).get("Content"));
+		 domain = ((String) ((JSONObject) input).get("Bounds"));
 		// Parse Domain
 		 String[] corrd = domain.split("[\\[,\\]=]"); 
 		 rect.setBounds(
@@ -295,10 +306,10 @@ public final class ApplicationController {
 		 ); 
 		 node.setBounds(rect);
 		 
-		 JSONObject ListKids = (JSONObject) input;
-	   	 JSONArray children = (JSONArray) ListKids.get("Children");
+		 JSONObject listKids = (JSONObject) input;
+	   	 JSONArray children = (JSONArray) listKids.get("Children");
 	   	 
-	   	 if(children.size() > 0) {
+	   	 if (children.size() > 0) {
 	   		for (Object joNode : children) {
 	    		 node.addChild(parseNode(joNode));
 	    	 }

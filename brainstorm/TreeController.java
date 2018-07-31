@@ -121,6 +121,25 @@ public final class TreeController {
         }
         return null;
     }
+    
+    /**
+     * Finds the NodeController associated with the argument NodeView.
+     * 
+     * @param nv The node view object
+     * @return The controller associated with the node model object.
+     */
+    public NodeController findController(final NodeView nv) {
+        if (nv == null) {
+            return null;
+        }
+        
+        for (NodeController nc: nodeControllers) {
+            if (nc.getView().equals(nv)) {
+                return nc;
+            }
+        }
+        return null;
+    }
 
     /**
      * Returns the BPlusTree model object.
