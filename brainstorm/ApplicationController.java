@@ -15,10 +15,7 @@ import java.io.IOException;
  
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.*;
-
-import java.util.Iterator;
-import java.util.Map;
+import org.json.simple.parser.JSONParser;
 
 /**
  * A Singleton class that performs tasks of controlling the application.
@@ -288,7 +285,7 @@ public final class ApplicationController {
     /* Recursive function to open nodes with children 
      * 
      */
-    private Node parseNode(Object input) {
+    private Node parseNode(final Object input) {
     	 Node node = new Node();
 		 String domain;
     	 Rectangle rect = new Rectangle();

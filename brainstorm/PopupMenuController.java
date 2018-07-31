@@ -1,13 +1,11 @@
 package brainstorm;
-import java.awt.*;
-import java.awt.event.*;
 
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
 /**
  * This is a popup menu class for right clicking on a node
- * for easier manipulation and editing of the nodes
+ * for easier manipulation and editing of the nodes.
  * 
  * @author Chad Vredeveld
  *
