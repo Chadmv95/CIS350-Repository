@@ -213,7 +213,7 @@ public final class TreeController {
             return;
         }
         
-        if (tree.contains(child.getNode())) {
+        if (nodeControllers.contains(child)) {
             this.moveNode(parent, child);
             return;
         }
