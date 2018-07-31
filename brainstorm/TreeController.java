@@ -98,9 +98,20 @@ public final class TreeController {
             }
             
             for (Node n: tree.getAllNodesInOrder()) {
-                NodeController nc = new NodeController(n, new NodeView());
-                addNode(findController(n.getParent()), nc);
+                buildNodeInGUI(n);
             }
+        }
+    }
+    
+    private void buildNodeInGUI(Node n) {
+        NodeController nc = new NodeController(n, new NodeView());
+        nodeControllers.add(nc);
+        view.addToDocumentFront(nc.getView());
+        
+        NodeController parent = findController(n.getParent());
+        nc.setParent(parent);
+        if (parent != root) {
+            view.addToDocumentRear(nc.getLineToParent().getView());
         }
     }
     
@@ -213,7 +224,7 @@ public final class TreeController {
             return;
         }
         
-        if (nodeControllers.contains(child)) {
+        if (tree.contains(child.getNode())) {
             this.moveNode(parent, child);
             return;
         }
