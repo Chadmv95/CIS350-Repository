@@ -92,8 +92,10 @@ public final class TreeController {
         if (tree != null && view != null) {
             // Remove all viewers from the GUI
             Object[] ncArray = nodeControllers.toArray();
-            for (Object nc: ncArray) {
-                view.removeFromDocument(((NodeController) nc).getView());
+            for (Object o: ncArray) {
+                NodeController nc = (NodeController) o;
+                view.removeFromDocument(nc.getView());
+                view.removeFromDocument(nc.getLineToParent().getView());
                 nodeControllers.remove(nc);
             }
             
@@ -118,6 +120,7 @@ public final class TreeController {
         nc.setParent(parent);
         if (parent != root) {
             view.addToDocumentRear(nc.getLineToParent().getView());
+            System.out.println(nc.getLineToParent().getView().getBounds());
         }
     }
     
@@ -191,6 +194,14 @@ public final class TreeController {
                                              new NodeView()));
         }
     }
+    
+    /**
+     * Creates a child node for the parent NodeController provided.
+     * @param parent The controller of the parent node.
+     */
+    public void createChildOf(final NodeController parent) {
+        this.addNode(parent, new NodeController(new Node(), new NodeView()));
+    }
 
     /**
      * Adds a pre-existing Node to the tree at the root of the tree.
@@ -243,6 +254,7 @@ public final class TreeController {
             if (tree.add(parent.getNode(), child.getNode())) {
                 // Child was successfully added to parent in the tree
                 nodeControllers.add(child);
+                child.setParent(parent);
                 view.addToDocumentFront(child.getView());
                 if (parent != root) {
                     view.addToDocumentRear(child.getLineToParent().getView());

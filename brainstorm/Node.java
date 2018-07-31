@@ -65,6 +65,8 @@ public class Node {
         this.name = "Insert Name";
         this.content = "Insert Content";
         children = new ArrayList<Node>(5);
+        
+        bounds = new Rectangle(0, 0, 100, 100);
     }
 
     /**

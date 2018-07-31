@@ -122,16 +122,17 @@ public class NodeController implements MouseListener,
         this.view = view;
         if (this.view != null) {
             this.view.addMouseListener(this);
-            this.view.addMouseListener(new PopClickListener());
+            this.view.addMouseListener(
+                    PopupMenuController.getInstance().getClickListener());
             this.view.addMouseMotionListener(this);
             this.view.addNameFieldListener(this);
             this.view.addContentFieldListener(this);
-            this.parentLine.setChildNodeView(this.view);
             if (this.node != null) {
                 this.view.setName(this.node.getName());
                 this.view.setContent(this.node.getContent());
                 this.view.setBounds(this.node.getBounds());
             }
+            this.parentLine.setChildNodeView(this.view);
         }
     }
 
@@ -213,6 +214,7 @@ public class NodeController implements MouseListener,
     
     /**
      * Sets all necessary relationship values between this node and its parent.
+     * 
      * @param parent The controller of the parent node.
      * @return true if successful, false otherwise.
      */

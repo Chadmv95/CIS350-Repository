@@ -219,6 +219,17 @@ public final class ApplicationController {
     	file.write("}");
     }
     
+    /**
+     * Recursively writes the children of a particular Node into the output
+     * file.
+     * 
+     * @param file The output file.
+     * @param node The base Node of the branch being written.
+     * @param index When writing to an array, the index of the array.
+     * @param size When writing to an array, the size of the array.
+     * 
+     * @throws IOException Throws IOException because this is writing to a file.
+     */
     private void writeChildren(final FileWriter file, final Node node,
                         final int index, final int size) throws IOException {
     	//begin writing node
@@ -282,9 +293,11 @@ public final class ApplicationController {
     	 
     }
     
-    
-    /* Recursive function to open nodes with children 
+    /**
+     * Recursive function to open nodes with children.
      * 
+     * @param input The object to parse into a Node.
+     * @return The Node parsed from the input.
      */
     private Node parseNode(final Object input) {
     	 Node node = new Node();
