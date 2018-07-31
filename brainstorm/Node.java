@@ -236,11 +236,22 @@ public class Node {
      * false otherwise.
      */
     public boolean setParent(final Node parent) {
-    	if (parent != this && parent != this.parent
-    	        && !this.getAllDescendants().contains(parent)) {
-            this.parent = parent;
-        	if (this.parent != null
-        	        && !this.parent.getChildren().contains(this)) {
+        if (parent == this.parent) {
+            // Already done, so return true.
+            return true;
+        }
+        // Break ties with the old parent
+        if (this.parent != null) {
+            this.parent.removeChild(this);
+        }
+        if (parent == null) {
+            this.parent = null;
+            return true;
+        }
+        // We don't want any Futurama Fry incidents...
+    	if (parent != this && !this.getAllDescendants().contains(parent)) {
+    	    this.parent = parent;
+        	if (!this.parent.getChildren().contains(this)) {
         	    return this.parent.addChild(this);
         	}
     	}

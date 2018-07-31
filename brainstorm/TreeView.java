@@ -116,4 +116,11 @@ public class TreeView {
             this.documentPanel.setPreferredSize(d);
         }
     }
+    
+    /**
+     * Refreshes the documentPanel.
+     */
+    public void refreshDocumentView() {
+        this.documentPanel.revalidate();
+    }
 }

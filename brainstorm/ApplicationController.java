@@ -8,6 +8,7 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.io.FileWriter;
 import java.io.FileReader;
@@ -58,6 +59,8 @@ public final class ApplicationController {
         fileChooser = new JFileChooser();
         fileChooser.setCurrentDirectory(new File(
                 System.getProperty("user.home")));
+        fileChooser.setFileFilter(
+                new FileNameExtensionFilter("Brainstorm Archive", "bstrm"));
     }
     
     /**
@@ -125,8 +128,7 @@ public final class ApplicationController {
      * This method discards the current workspace and opens an existing file.
      */
     public void openFile() {
-        int result = fileChooser.showOpenDialog(ApplicationController
-                .getInstance().getWindow());
+        int result = fileChooser.showOpenDialog(window);
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
             if (selectedFile != null) {
@@ -158,8 +160,7 @@ public final class ApplicationController {
      * This method saves the current workspace under a new file name.
      */
     public void saveFileAs() {
-        int result = fileChooser.showSaveDialog(ApplicationController
-                                            .getInstance().getWindow());
+        int result = fileChooser.showSaveDialog(window);
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
             if (selectedFile != null) {
