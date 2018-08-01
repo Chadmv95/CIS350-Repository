@@ -21,8 +21,8 @@ public class MenuBarView extends JMenuBar {
     /**
      * The menu items within the menu bar.
      */
-    private JMenuItem newFile, openFile, saveFile, saveFileAs, printFile,
-              quit, createNode, /*editNode,*/ deleteNode;
+    private JMenuItem newFile, openFile, saveFile, saveFileAs, saveImage,
+                    printFile, quit, createNode, /*editNode,*/ deleteNode;
     
     /**
      * A constructor for the menu bar. 
@@ -54,7 +54,11 @@ public class MenuBarView extends JMenuBar {
                                                     InputEvent.CTRL_DOWN_MASK));
         saveFileAs = new JMenuItem("Save As...");
         saveFileAs.setMnemonic(KeyEvent.VK_A);
-        
+
+        saveImage = new JMenuItem("Save Image");
+        saveImage.setMnemonic(KeyEvent.VK_I);
+        saveImage.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I,
+                                                    InputEvent.CTRL_DOWN_MASK));
         printFile = new JMenuItem("Print");
         printFile.setMnemonic(KeyEvent.VK_P);
         printFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P,
@@ -69,6 +73,7 @@ public class MenuBarView extends JMenuBar {
         fileMenu.add(saveFile);
         fileMenu.add(saveFileAs);
         fileMenu.addSeparator();
+        fileMenu.add(saveImage);
         fileMenu.add(printFile);
         fileMenu.addSeparator();
         fileMenu.add(quit);
@@ -106,6 +111,8 @@ public class MenuBarView extends JMenuBar {
         newFile.addActionListener(al);
         openFile.addActionListener(al);
         saveFile.addActionListener(al);
+        saveFileAs.addActionListener(al);
+        saveImage.addActionListener(al);
         printFile.addActionListener(al);
         quit.addActionListener(al);
         createNode.addActionListener(al);

@@ -7,6 +7,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Image;
 
 /**
  * A viewing class for the BPlusTree.
@@ -122,5 +123,14 @@ public class TreeView {
      */
     public void refreshDocumentView() {
         this.documentPanel.revalidate();
+    }
+    
+    /**
+     * Paints the current document to an Image object.
+     * 
+     * @param image The image that will receive the current document
+     */
+    public void paintViewToImage(final Image image) {
+        documentPanel.paint(image.getGraphics());
     }
 }

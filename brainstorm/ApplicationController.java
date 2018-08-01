@@ -3,13 +3,16 @@ package brainstorm;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.io.IOException;
@@ -32,6 +35,18 @@ public final class ApplicationController {
      * Instance of the singleton class.
      */
     private static ApplicationController instance = new ApplicationController();
+    
+    /**
+     * A file filter for brainstorm files.
+     */
+    private static FileFilter brainstormFilter = 
+                    new FileNameExtensionFilter("Brainstorm Archive", "bstrm");
+    
+    /**
+     * A file filter for images.
+     */
+    private static FileFilter imageFilter = 
+                    new FileNameExtensionFilter("JPEG Image", "jpg");
     
     /**
      * The application window that contains the application.
@@ -61,8 +76,6 @@ public final class ApplicationController {
         fileChooser = new JFileChooser();
         fileChooser.setCurrentDirectory(new File(
                 System.getProperty("user.home")));
-        fileChooser.setFileFilter(
-                new FileNameExtensionFilter("Brainstorm Archive", "bstrm"));
     }
     
     /**
@@ -130,6 +143,7 @@ public final class ApplicationController {
      * This method discards the current workspace and opens an existing file.
      */
     public void openFile() {
+        fileChooser.setFileFilter(brainstormFilter);
         int result = fileChooser.showOpenDialog(window);
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
@@ -162,6 +176,7 @@ public final class ApplicationController {
      * This method saves the current workspace under a new file name.
      */
     public void saveFileAs() {
+        fileChooser.setFileFilter(brainstormFilter);
         int result = fileChooser.showSaveDialog(window);
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
@@ -326,5 +341,33 @@ public final class ApplicationController {
 	   	 }
     	
     	return (Node) node; 
+    }
+    
+    /**
+     * Saves the current state of the document as an image file.
+     */
+    public void saveImage() {
+        fileChooser.setFileFilter(imageFilter);
+        int result = fileChooser.showSaveDialog(window);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            if (selectedFile != null) {
+                if (!selectedFile.getName().endsWith(".jpg")) {
+                    selectedFile =
+                            new File(selectedFile.getAbsolutePath() + ".jpg");
+                }
+                TreeView tv = TreeController.getInstance().getView();
+                Dimension d = tv.getDocumentDimensions();
+                BufferedImage image = new BufferedImage(d.width, d.height,
+                                                    BufferedImage.TYPE_INT_RGB);
+                tv.paintViewToImage(image);
+                try {
+                    ImageIO.write(image, "jpg", selectedFile);
+                } catch (IOException e) {
+                    System.out.println("Error writing image file!");
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

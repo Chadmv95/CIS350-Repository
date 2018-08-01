@@ -72,6 +72,9 @@ public class MenuBarController implements ActionListener {
         case "Save As...":
             ApplicationController.getInstance().saveFileAs();
             break;
+        case "Save Image":
+            ApplicationController.getInstance().saveImage();
+            break;
         case "Print":
             TreeController.getInstance().getTree().printTree();
             break;
