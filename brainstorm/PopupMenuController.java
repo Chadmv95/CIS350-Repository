@@ -7,6 +7,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -102,14 +103,12 @@ public final class PopupMenuController {
         
         switch (menuChoice) {
         case "Delete This Node":
-            System.out.println("Delete This Node Clicked!");
             tc.removeNode(tc.findController(nv));
             break;
         case "Move This Node":
-            System.out.println("Move This Node Clicked!");
+            System.out.println("\"Move This Node\" Clicked!");
             break;
         case "Create Child Node":
-            System.out.println("Create Child Node Clicked!");
             tc.createChildOf(tc.findController(nv));
             break;
         default:
@@ -127,20 +126,20 @@ public final class PopupMenuController {
      */
     private class PopClickListener extends MouseAdapter
                                           implements MouseListener {
-    	
+        
         @Override
         public void mousePressed(final MouseEvent e) {
-    		if (e.isPopupTrigger()) {
-    			doPop(e);
-    		}
-    	}
+            if (e.isPopupTrigger()) {
+                doPop(e);
+            }
+        }
     
         @Override
-    	public void mouseReleased(final MouseEvent e) {
-    		if (e.isPopupTrigger()) {
-    			doPop(e);
-    		}
-    	}
+        public void mouseReleased(final MouseEvent e) {
+            if (e.isPopupTrigger()) {
+                doPop(e);
+            }
+        }
     
         /**
          * Helper function that displays a pop-up menu and logs which component
@@ -148,10 +147,10 @@ public final class PopupMenuController {
          * 
          * @param e The MouseEvent that caused the pop-up to trigger.
          */
-    	private void doPop(final MouseEvent e) {
-    		lastClicked = e.getComponent();
-    	    view.show(e.getComponent(), e.getX(), e.getY());
-    	}
+        private void doPop(final MouseEvent e) {
+            lastClicked = e.getComponent();
+            view.show(e.getComponent(), e.getX(), e.getY());
+        }
     }
     
     /**
@@ -165,7 +164,5 @@ public final class PopupMenuController {
         public void actionPerformed(final ActionEvent e) {
             performPopupAction(e.getActionCommand());
         }
-        
     }
 }
-

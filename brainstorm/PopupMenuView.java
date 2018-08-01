@@ -25,17 +25,17 @@ public final class PopupMenuView extends JPopupMenu {
 	 */
 	public PopupMenuView() {
 		setVisible(true);
-	    
-		deleteNodeItem = new JMenuItem("Delete This Node");
-        add(deleteNodeItem);
         
-		moveNodeItem = new JMenuItem("Move This Node");
-		add(moveNodeItem);
+        createChildNode = new JMenuItem("Create Child Node");
+        add(createChildNode);
 		
 		addSeparator();
-		
-		createChildNode = new JMenuItem("Create Child Node");
-		add(createChildNode);
+        
+        deleteNodeItem = new JMenuItem("Delete This Node");
+        add(deleteNodeItem);
+        
+        moveNodeItem = new JMenuItem("Move This Node");
+        add(moveNodeItem);
 	}
 	
 	/**

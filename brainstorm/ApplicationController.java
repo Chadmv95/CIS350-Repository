@@ -177,22 +177,14 @@ public final class ApplicationController {
      * @param fileName The File that the the current tree is written into.
      */
     private void saveWorkspace(final File fileName) {
-        System.out.println("saveWorkspace Called");
-    	System.out.println(fileName);
-    	BPlusTree temp = TreeController.getInstance().getTree();
-    	
-    	
+        BPlusTree temp = TreeController.getInstance().getTree();
     	try {
     		FileWriter file = new FileWriter(fileName);
-    		
-			writeToJSON(file, temp);
-			
+    		writeToJSON(file, temp);
 			file.flush();
 	    	file.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} finally {
-			System.out.println("Save Successful");
 		}
     }
     
@@ -276,7 +268,6 @@ public final class ApplicationController {
     	
     	 BPlusTree tree = new BPlusTree();
     	
-    	 System.out.println("we are in");
     	 Object obj = new JSONParser().parse(new FileReader(selectedFile));
     	 JSONObject jo = (JSONObject) obj;
     	 
@@ -287,7 +278,7 @@ public final class ApplicationController {
     		 tree.add(parseNode(joNode));
     	 }
     	 
-    	 tree.printTree();
+//    	 tree.printTree();
     	 
     	 return tree;
     	 

@@ -22,7 +22,7 @@ public class MenuBarView extends JMenuBar {
      * The menu items within the menu bar.
      */
     private JMenuItem newFile, openFile, saveFile, saveFileAs, printFile,
-              quit, createNode, editNode, deleteNode;
+              quit, createNode, /*editNode,*/ deleteNode;
     
     /**
      * A constructor for the menu bar. 
@@ -68,7 +68,9 @@ public class MenuBarView extends JMenuBar {
         fileMenu.add(openFile);
         fileMenu.add(saveFile);
         fileMenu.add(saveFileAs);
+        fileMenu.addSeparator();
         fileMenu.add(printFile);
+        fileMenu.addSeparator();
         fileMenu.add(quit);
         
         JMenu editMenu = new JMenu("Edit");
@@ -79,17 +81,17 @@ public class MenuBarView extends JMenuBar {
         createNode.setMnemonic(KeyEvent.VK_C);
         createNode.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
                        InputEvent.SHIFT_DOWN_MASK | InputEvent.CTRL_DOWN_MASK));
-        editNode = new JMenuItem("Edit Node");
-        editNode.setMnemonic(KeyEvent.VK_E);
-        editNode.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E,
-                                                    InputEvent.CTRL_DOWN_MASK));
+//        editNode = new JMenuItem("Edit Node");
+//        editNode.setMnemonic(KeyEvent.VK_E);
+//        editNode.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E,
+//                                                  InputEvent.CTRL_DOWN_MASK));
         deleteNode = new JMenuItem("Delete Node");
         deleteNode.setMnemonic(KeyEvent.VK_D);
         deleteNode.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,
                                                     InputEvent.CTRL_DOWN_MASK));
         
         editMenu.add(createNode);
-        editMenu.add(editNode);
+//        editMenu.add(editNode);
         editMenu.add(deleteNode);
     }
     
@@ -107,7 +109,7 @@ public class MenuBarView extends JMenuBar {
         printFile.addActionListener(al);
         quit.addActionListener(al);
         createNode.addActionListener(al);
-        editNode.addActionListener(al);
+//        editNode.addActionListener(al);
         deleteNode.addActionListener(al);
     }
 }

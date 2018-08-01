@@ -120,7 +120,6 @@ public final class TreeController {
         nc.setParent(parent);
         if (parent != root) {
             view.addToDocumentRear(nc.getLineToParent().getView());
-            System.out.println(nc.getLineToParent().getView().getBounds());
         }
     }
     
@@ -303,7 +302,8 @@ public final class TreeController {
             view.removeFromDocument(nc.getLineToParent().getView());
             nodeControllers.remove(nc);
             for (Node nChild: children) {
-                moveNode(findController(nChild.getParent()), findController(nChild));
+                moveNode(findController(nChild.getParent()),
+                         findController(nChild));
             }
         }
     }

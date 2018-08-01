@@ -144,17 +144,11 @@ public class Node {
      * @return Whether or not the add was successful
      */
     public boolean addChild(final Node child) {
-        if (child == null || this.equals(child)) {
+        if (child == null || child == this) {
             return false;
         }
         
-        // Find the first empty location, and put the child there
-        int firstNullPosition = this.children.indexOf(null);
-        if (firstNullPosition == -1) {
-            this.children.add(child);
-        } else {
-            this.children.set(firstNullPosition, child);
-        }
+        this.children.add(child);
         
         // Set the child's parent to this
         child.setParent(this);
