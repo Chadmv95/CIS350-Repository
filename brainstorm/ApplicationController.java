@@ -278,6 +278,10 @@ public final class ApplicationController {
     		 tree.add(parseNode(joNode));
     	 }
     	 
+    	 // We need to refresh the tree's list of nodes because we didn't use
+    	 // the tree's add function inside of the recursive parseNode function
+    	 tree.refreshNodeList();
+    	 
 //    	 tree.printTree();
     	 
     	 return tree;

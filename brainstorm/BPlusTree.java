@@ -377,4 +377,12 @@ public class BPlusTree {
                         + next, "     ", stream);
         }
     }
+
+    /**
+     * This will update the childrenOfRoot list to include all nodes in the
+     * tree.
+     */
+    public void refreshNodeList() {
+        childrenOfRoot = this.getAllNodesInOrder();
+    }
 }
