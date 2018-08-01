@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -13,7 +15,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.IOException;
- 
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -178,11 +182,12 @@ public final class ApplicationController {
      */
     private void saveWorkspace(final File fileName) {
         BPlusTree temp = TreeController.getInstance().getTree();
-    	try {
-    		FileWriter file = new FileWriter(fileName);
-    		writeToJSON(file, temp);
-			file.flush();
-	    	file.close();
+        try {
+            OutputStreamWriter file = new OutputStreamWriter(
+                                       new FileOutputStream(fileName), "utf-8");
+            writeToJSON(file, temp);
+            file.flush();
+            file.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -196,8 +201,8 @@ public final class ApplicationController {
      * 
      * @throws IOException If the 
      */
-    private void writeToJSON(final FileWriter file, final BPlusTree tree)
-                                                        throws IOException {
+    private void writeToJSON(final OutputStreamWriter file,
+                             final BPlusTree tree) throws IOException {
     	
     	file.write("{\"" + tree.getRoot().getName() + "\":");
     	file.write("{\"Children\":[");
@@ -222,7 +227,7 @@ public final class ApplicationController {
      * 
      * @throws IOException Throws IOException because this is writing to a file.
      */
-    private void writeChildren(final FileWriter file, final Node node,
+    private void writeChildren(final OutputStreamWriter file, final Node node,
                         final int index, final int size) throws IOException {
     	//begin writing node
     	
@@ -268,7 +273,8 @@ public final class ApplicationController {
     	
     	 BPlusTree tree = new BPlusTree();
     	
-    	 Object obj = new JSONParser().parse(new FileReader(selectedFile));
+    	 Object obj = new JSONParser().parse(new InputStreamReader(
+                                   new FileInputStream(selectedFile), "utf-8"));
     	 JSONObject jo = (JSONObject) obj;
     	 
     	 JSONObject root = (JSONObject) jo.get("Root");
